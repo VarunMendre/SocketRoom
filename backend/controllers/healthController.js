@@ -1,7 +1,6 @@
-const { activeRooms } = require('../store/userStore');
+import { activeRooms } from '../store/userStore.js';
+import { successResponse } from '../utils/successResponse.js';
 
-const getHealth = (req, res) => {
-    res.status(200).json({ status: 'OK', activeRooms: activeRooms.size });
+export const getHealth = (req, res) => {
+    return successResponse(res, { status: 'OK', activeRooms: activeRooms.size });
 };
-
-module.exports = { getHealth };

@@ -1,7 +1,7 @@
-const registerRoomHandlers = require('./handlers/roomHandler');
-const registerMessageHandlers = require('./handlers/messageHandler');
-const registerReactionHandlers = require('./handlers/reactionHandler');
-const registerDisconnectHandlers = require('./handlers/disconnectHandler');
+import registerRoomHandlers from './handlers/roomHandler.js';
+import registerMessageHandlers from './handlers/messageHandler.js';
+import registerReactionHandlers from './handlers/reactionHandler.js';
+import registerDisconnectHandlers from './handlers/disconnectHandler.js';
 
 const initSockets = (io) => {
     io.on('connection', (socket) => {
@@ -15,4 +15,4 @@ const initSockets = (io) => {
     });
 };
 
-module.exports = initSockets;
+export default initSockets;

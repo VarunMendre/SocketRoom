@@ -1,21 +1,22 @@
-module.exports = (io, socket) => {
+import { handleChatMessage, handleTyping } from '../../services/messageService.js';
+import { validateWithSchema } from '../../utils/validator.js';
+import { messageSchema } from '../../validators/messageValidator.js';
+
+export default (io, socket) => {
     // Handle chat messages
     socket.on('chat message', (data) => {
-        console.log('Message received:', data);
-
-        // Broadcast to everyone in the room INCLUDING the sender
-        io.to(data.room).emit('chat message', {
-            id: `${Date.now()}-${Math.random()}`, // Unique message ID
-            username: data.username,
-            message: data.message,
-            timestamp: data.timestamp,
-            replyTo: data.replyTo || null,
-            reactions: {}
-        });
+        const validation = validateWithSchema(messageSchema, data);
+        if (!validation.success) {
+            console.error('❌ Message validation failed:', validation.fieldErrors);
+            return socket.emit('error_message', { error: 'Invalid message data' });
+        }
+        
+        handleChatMessage(io, socket, validation.data);
     });
 
     // Handle typing indicator
     socket.on('typing', (data) => {
-        socket.to(data.room).emit('typing', data);
+        if (!data.room) return;
+        handleTyping(io, socket, data);
     });
 };

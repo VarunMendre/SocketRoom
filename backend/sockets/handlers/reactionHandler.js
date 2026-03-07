@@ -1,28 +1,25 @@
-module.exports = (io, socket) => {
+import { handleAddReaction, handleRemoveReaction } from '../../services/messageService.js';
+import { validateWithSchema } from '../../utils/validator.js';
+import { reactionSchema } from '../../validators/messageValidator.js';
+
+export default (io, socket) => {
     // Handle message reactions
     socket.on('add_reaction', (data) => {
-        const { room, messageId, emoji, username } = data;
-        console.log(`Reaction added: ${emoji} by ${username} on message ${messageId}`);
-
-        // Broadcast reaction to everyone in the room
-        io.to(room).emit('reaction_added', {
-            messageId,
-            emoji,
-            username,
-            timestamp: new Date().toISOString()
-        });
+        const validation = validateWithSchema(reactionSchema, data);
+        if (!validation.success) {
+            console.error('❌ Reaction validation failed:', validation.fieldErrors);
+            return;
+        }
+        handleAddReaction(io, socket, validation.data);
     });
 
     // Handle removing reactions
     socket.on('remove_reaction', (data) => {
-        const { room, messageId, emoji, username } = data;
-        console.log(`Reaction removed: ${emoji} by ${username} on message ${messageId}`);
-
-        // Broadcast reaction removal to everyone in the room
-        io.to(room).emit('reaction_removed', {
-            messageId,
-            emoji,
-            username
-        });
+        const validation = validateWithSchema(reactionSchema, data);
+        if (!validation.success) {
+            console.error('❌ Reaction removal validation failed:', validation.fieldErrors);
+            return;
+        }
+        handleRemoveReaction(io, socket, validation.data);
     });
 };
