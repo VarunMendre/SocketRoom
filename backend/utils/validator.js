@@ -10,11 +10,10 @@ export const validateWithSchema = (schema, data) => {
     const result = schema.safeParse(data);
 
     if (!result.success) {
-        const flattened = z.flattenError(result.error);
+        const flattened = result.error.flatten();
         return {
             success: false,
             fieldErrors: flattened.fieldErrors,
-            error: "Validation failed",
         };
     }
 

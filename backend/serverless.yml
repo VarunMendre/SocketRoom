@@ -1,4 +1,5 @@
 service: chatme-app
+frameworkVersion: "3"
 
 provider: 
   name: aws
