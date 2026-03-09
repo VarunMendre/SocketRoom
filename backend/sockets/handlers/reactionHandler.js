@@ -4,22 +4,22 @@ import { reactionSchema } from '../../validators/messageValidator.js';
 
 export default (io, socket) => {
     // Handle message reactions
-    socket.on('add_reaction', (data) => {
+    socket.on('add_reaction', async (data) => {
         const validation = validateWithSchema(reactionSchema, data);
         if (!validation.success) {
             console.error('❌ Reaction validation failed:', validation.fieldErrors);
             return;
         }
-        handleAddReaction(io, socket, validation.data);
+        await handleAddReaction(io, socket, validation.data);
     });
 
     // Handle removing reactions
-    socket.on('remove_reaction', (data) => {
+    socket.on('remove_reaction', async (data) => {
         const validation = validateWithSchema(reactionSchema, data);
         if (!validation.success) {
             console.error('❌ Reaction removal validation failed:', validation.fieldErrors);
             return;
         }
-        handleRemoveReaction(io, socket, validation.data);
+        await handleRemoveReaction(io, socket, validation.data);
     });
 };

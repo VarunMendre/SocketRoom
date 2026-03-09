@@ -1,105 +1,79 @@
-import { activeRooms, userSockets } from '../store/userStore.js';
+import { dynamoService } from './dynamoService.js';
+import { errorResponse } from '../utils/successResponse.js';
 
-export const handleJoinRoom = (io, socket, data) => {
-    console.log('📥 Join room data received:', data);
+export const handleJoinRoom = async (io, socket, data) => {
+    try {
+        console.log('📥 Join room data received:', data);
 
-    // Handle both {roomId, username} and just roomId string
-    const roomId = typeof data === 'string' ? data : data.roomId;
-    const username = typeof data === 'string' ? 'Anonymous' : data.username;
+        const roomId = typeof data === 'string' ? data : data.roomId;
+        const username = typeof data === 'string' ? 'Anonymous' : data.username;
 
-    if (!roomId || !username) {
-        console.error('❌ Missing roomId or username:', data);
-        return;
+        if (!roomId || !username || username === 'Anonymous') {
+            return socket.emit('error_message', { error: 'Valid username and Room ID are required' });
+        }
+
+        socket.join(roomId);
+
+        await dynamoService.saveConnection(socket.id, username, roomId);
+        console.log(`✅ User ${username} (${socket.id}) joined room: ${roomId}`);
+
+        // Broadcast join notification
+        const joinData = {
+            username,
+            timestamp: new Date().toISOString()
+        };
+        await dynamoService.broadcastToRoom(io, roomId, 'user_joined', joinData);
+
+        // Broadcast updated user list
+        const members = await dynamoService.getRoomMembers(roomId);
+        const usersInRoom = members.map(m => m.username);
+        await dynamoService.broadcastToRoom(io, roomId, 'users_update', usersInRoom);
+
+    } catch (err) {
+        console.error('❌ Error in handleJoinRoom:', err);
+        socket.emit('error_message', { error: 'Failed to join room' });
     }
-
-    socket.join(roomId);
-
-    // Store user info
-    userSockets.set(socket.id, { username, roomId });
-
-    // Add user to room
-    if (!activeRooms.has(roomId)) {
-        activeRooms.set(roomId, new Set());
-    }
-
-    // Remove user first if they already exist (prevents duplicates)
-    activeRooms.get(roomId).delete(username);
-    // Now add them
-    activeRooms.get(roomId).add(username);
-
-    console.log(`✅ User ${username} (${socket.id}) joined room: ${roomId}`);
-    console.log(`👥 Users in room:`, Array.from(activeRooms.get(roomId)));
-
-    // Notify others in the room that a user joined
-    socket.to(roomId).emit('user_joined', {
-        username,
-        timestamp: new Date().toISOString()
-    });
-
-    // Send updated user list to everyone in the room
-    const usersInRoom = Array.from(activeRooms.get(roomId));
-    io.to(roomId).emit('users_update', usersInRoom);
 };
 
-export const handleLeaveRoom = (io, socket, data) => {
-    const { roomId, username } = data;
+export const handleLeaveRoom = async (io, socket, data) => {
+    try {
+        const { roomId, username } = data;
+        socket.leave(roomId);
 
-    socket.leave(roomId);
+        await dynamoService.removeConnection(socket.id);
 
-    if (activeRooms.has(roomId)) {
-        activeRooms.get(roomId).delete(username);
+        await dynamoService.broadcastToRoom(io, roomId, 'user_left', {
+            username,
+            timestamp: new Date().toISOString()
+        });
 
-        if (activeRooms.get(roomId).size === 0) {
-            activeRooms.delete(roomId);
-        } else {
-            // Notify others
-            socket.to(roomId).emit('user_left', {
+        const members = await dynamoService.getRoomMembers(roomId);
+        const usersInRoom = members.map(m => m.username);
+        await dynamoService.broadcastToRoom(io, roomId, 'users_update', usersInRoom);
+
+        console.log(`User ${username} explicitly left room: ${roomId}`);
+    } catch (err) {
+        console.error('❌ Error in handleLeaveRoom:', err);
+    }
+};
+
+export const handleDisconnect = async (io, socket) => {
+    try {
+        const userData = await dynamoService.getConnection(socket.id);
+        if (userData) {
+            const { username, roomId } = userData;
+            await dynamoService.removeConnection(socket.id);
+
+            await dynamoService.broadcastToRoom(io, roomId, 'user_left', {
                 username,
                 timestamp: new Date().toISOString()
             });
 
-            // Send updated user list
-            const usersInRoom = Array.from(activeRooms.get(roomId));
-            io.to(roomId).emit('users_update', usersInRoom);
+            const members = await dynamoService.getRoomMembers(roomId);
+            const usersInRoom = members.map(m => m.username);
+            await dynamoService.broadcastToRoom(io, roomId, 'users_update', usersInRoom);
         }
-    }
-
-    userSockets.delete(socket.id);
-    console.log(`User ${username} explicitly left room: ${roomId}`);
-};
-
-export const handleDisconnect = (io, socket) => {
-    const userData = userSockets.get(socket.id);
-
-    if (userData) {
-        const { username, roomId } = userData;
-        console.log(`❌ User ${username} (${socket.id}) disconnected from room: ${roomId}`);
-
-        // Remove user from room
-        if (activeRooms.has(roomId)) {
-            activeRooms.get(roomId).delete(username);
-
-            console.log(`👥 Remaining users in room ${roomId}:`, Array.from(activeRooms.get(roomId)));
-
-            // If room is empty, remove it
-            if (activeRooms.get(roomId).size === 0) {
-                activeRooms.delete(roomId);
-                console.log(`🗑️ Room ${roomId} deleted (empty)`);
-            } else {
-                // Notify others that user left
-                socket.to(roomId).emit('user_left', {
-                    username,
-                    timestamp: new Date().toISOString()
-                });
-
-                // Send updated user list
-                const usersInRoom = Array.from(activeRooms.get(roomId));
-                io.to(roomId).emit('users_update', usersInRoom);
-            }
-        }
-
-        userSockets.delete(socket.id);
-    } else {
-        console.log('❌ User disconnected (no data found):', socket.id);
+    } catch (err) {
+        console.error('❌ Error in handleDisconnect:', err);
     }
 };

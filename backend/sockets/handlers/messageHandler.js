@@ -4,19 +4,19 @@ import { messageSchema } from '../../validators/messageValidator.js';
 
 export default (io, socket) => {
     // Handle chat messages
-    socket.on('chat message', (data) => {
+    socket.on('chat message', async (data) => {
         const validation = validateWithSchema(messageSchema, data);
         if (!validation.success) {
             console.error('❌ Message validation failed:', validation.fieldErrors);
             return socket.emit('error_message', { error: 'Invalid message data' });
         }
-        
-        handleChatMessage(io, socket, validation.data);
+
+        await handleChatMessage(io, socket, validation.data);
     });
 
     // Handle typing indicator
-    socket.on('typing', (data) => {
+    socket.on('typing', async (data) => {
         if (!data.room) return;
-        handleTyping(io, socket, data);
+        await handleTyping(io, socket, data);
     });
 };
