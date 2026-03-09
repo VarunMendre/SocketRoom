@@ -9,7 +9,8 @@ import {
 import { ApiGatewayManagementApiClient, PostToConnectionCommand } from "@aws-sdk/client-apigatewaymanagementapi";
 
 // --- Configuration ---
-const isLocal = process.env.NODE_ENV !== 'production' && !process.env.AWS_LAMBDA_FUNCTION_NAME;
+// Use local mock if not on AWS OR if explicitly requested
+const isLocal = process.env.USE_LOCAL_MOCK === 'true' || (!process.env.AWS_LAMBDA_FUNCTION_NAME && process.env.NODE_ENV !== 'production');
 const TABLE_NAME = process.env.CHAT_TABLE || "ChatConnections";
 
 // AWS Client setup
@@ -110,8 +111,9 @@ export const dynamoService = {
         return;
     }
 
-    // In Serverless, we must manually push to each connection via AWS API Gateway
-    const client = getApiGwClient(endpoint);
+    // In Serverless, we discover the endpoint from the mock 'io' if not passed
+    const activeEndpoint = endpoint || (io && io.endpoint);
+    const client = getApiGwClient(activeEndpoint);
     if (!client) return;
 
     const postCalls = members.map(async (member) => {

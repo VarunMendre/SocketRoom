@@ -27,17 +27,20 @@ initSockets(io);
 // Health check endpoint
 app.get('/health', getHealth);
 
-// Global Error Handler for Express
 app.use((err, req, res, next) => {
-  console.error('Express Error:', err);
   const status = err.statusCode || 500;
   return errorResponse(res, err.message || 'Internal Server Error', status, {
     stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
   });
 });
 
-// Start Server
-const PORT = process.env.PORT || 3001;
-server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// Start Server (Only if NOT in a Lambda environment)
+if (!process.env.AWS_LAMBDA_FUNCTION_NAME) {
+  const PORT = process.env.PORT || 3001;
+  server.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+// Export the app for serverless entry point (lambda.js)
+export default app;

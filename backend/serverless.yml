@@ -1,0 +1,127 @@
+service: chatme-app
+
+provider: 
+  name: aws
+  runtime: nodejs22.x
+  region: ap-south-1
+  stage: dev
+  memorySize: 512
+  timeout: 10
+  environment: 
+    CHAT_TABLE: ${self:service}-connections-${sls:stage}
+    NODE_ENV: production
+  iam: 
+    role: 
+      statements:
+        - Effect: Allow
+          Action: 
+            - dynamodb:*
+          Resource: 
+            - !GetAtt ChatTable.Arn
+            - !Join ["/", [!GetAtt ChatTable.Arn, "index", "RoomIndex"]]
+        - Effect: Allow
+          Action: 
+            - execute-api:ManageConnections
+          Resource: 
+            - "arn:aws:execute-api:*:*:*/@connections/*"
+
+plugins:
+  - serverless-plugin-include-dependencies
+  - serverless-s3-sync
+
+functions: 
+  apiHandler: 
+    handler: lambda.httpHandler
+    events: 
+      - httpApi:
+          path: /health
+          method: get
+  
+  connectionHandler:
+    handler: lambda.wsHandler
+    events: 
+      - websocket: 
+          route: $connect
+      - websocket: 
+          route: $disconnect
+      - websocket: 
+          route: $default
+
+custom:
+  s3Sync:
+    - bucketName: ${self:service}-frontend-${sls:stage}
+      localDir: ../frontend/build # React defaults to 'build' folder
+
+
+resources:
+  Resources:
+    ChatTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.CHAT_TABLE}
+        AttributeDefinitions:
+          - AttributeName: connectionId
+            AttributeType: S
+          - AttributeName: roomId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: connectionId
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: RoomIndex
+            KeySchema:
+              - AttributeName: roomId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+        BillingMode: PAY_PER_REQUEST
+        TimeToLiveSpecification:
+          AttributeName: ttl
+          Enabled: true
+    FrontendBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:service}-frontend-${sls:stage}
+        WebsiteConfiguration:
+          IndexDocument: index.html
+          ErrorDocument: index.html
+    FrontendBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket: !Ref FrontendBucket
+        PolicyDocument:
+          Statement:
+            - Effect: Allow
+              Principal: "*"
+              Action: s3:GetObject
+              Resource: !Join ["", ["arn:aws:s3:::", !Ref FrontendBucket, "/*"]]
+
+    CloudFrontDistribution:
+      Type: AWS::CloudFront::Distribution
+      Properties:
+        DistributionConfig:
+          Aliases:
+            - chat-me.cloudvault.cloud
+          Origins:
+            - DomainName: !GetAtt FrontendBucket.RegionalDomainName
+              Id: S3Origin
+              S3OriginConfig:
+                OriginAccessIdentity: ""
+          Enabled: true
+          DefaultRootObject: index.html
+          CustomErrorResponses:
+            - ErrorCode: 404
+              ResponseCode: 200
+              ResponsePagePath: /index.html
+          DefaultCacheBehavior:
+            TargetOriginId: S3Origin
+            ViewerProtocolPolicy: redirect-to-https
+            ForwardedValues:
+              QueryString: false
+            MinTTL: 0
+            DefaultTTL: 3600
+            MaxTTL: 86400
+          ViewerCertificate:
+            AcmCertificateArn: "arn:aws:acm:us-east-1:788184848977:certificate/4cf2a14a-2e01-41bf-985a-92af3231afdf"
+            SslSupportMethod: sni-only
+            MinimumProtocolVersion: TLSv1.2_2021
