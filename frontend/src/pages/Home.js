@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import { PlusCircle, LogIn } from 'lucide-react';
+import { PlusCircle, LogIn, Info } from 'lucide-react';
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&display=swap');
@@ -159,6 +159,28 @@ const styles = `
   .nb-btn-secondary:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0px #111; }
   .nb-btn-secondary:active { transform: translate(3px, 3px); box-shadow: 2px 2px 0px #111; }
 
+  .nb-btn-info {
+    background: #B666FF;
+    color: #000;
+    border: 3px solid #111;
+    box-shadow: 5px 5px 0px #111;
+    padding: 12px 24px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.1s;
+    margin-top: 24px;
+    text-decoration: none;
+  }
+
+  .nb-btn-info:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0px #111; }
+
   .nb-corner-tag {
     position: fixed;
     bottom: 16px;
@@ -227,6 +249,11 @@ function Home() {
               Join Room
             </button>
           </form>
+
+          <Link to="/landing" className="nb-btn-info">
+            <Info size={18} />
+            Explore ChatMe Features
+          </Link>
         </div>
 
         <div className="nb-corner-tag">{'//Made By Varun Mendre'}</div>
