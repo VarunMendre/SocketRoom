@@ -3,7 +3,7 @@ frameworkVersion: "3"
 
 provider: 
   name: aws
-  runtime: nodejs22.x
+  runtime: nodejs20.x
   region: ap-south-1
   stage: dev
   memorySize: 512
@@ -51,8 +51,7 @@ functions:
 custom:
   s3Sync:
     - bucketName: ${self:service}-frontend-${sls:stage}
-      localDir: ../frontend/build # React defaults to 'build' folder
-
+      localDir: ../frontend/build 
 
 resources:
   Resources:
@@ -79,13 +78,20 @@ resources:
         TimeToLiveSpecification:
           AttributeName: ttl
           Enabled: true
+
     FrontendBucket:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: ${self:service}-frontend-${sls:stage}
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: false
+          BlockPublicPolicy: false
+          IgnorePublicAcls: false
+          RestrictPublicBuckets: false
         WebsiteConfiguration:
           IndexDocument: index.html
           ErrorDocument: index.html
+
     FrontendBucketPolicy:
       Type: AWS::S3::BucketPolicy
       Properties:
