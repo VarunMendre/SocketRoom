@@ -13,7 +13,7 @@ const LandingPage = () => {
         <Link to="/" className="logo">ChatMe</Link>
         <div className="nav-actions">
           <a href="https://chat-me.cloudvault.cloud" style={{ color: 'black', textDecoration: 'none', fontWeight: 'bold', marginRight: '20px' }}>Home</a>
-          <a href="https://app.chat-me.cloudvault.cloud" className="btn-primary">Get Started</a>
+          <a href="https://chat-app.cloudvault.cloud" className="btn-primary">Get Started</a>
         </div>
       </nav>
 
@@ -29,7 +29,7 @@ const LandingPage = () => {
             Create a room, share the ID, and start talking. No strings attached.
           </p>
           <div className="hero-btns">
-            <a href="https://app.chat-me.cloudvault.cloud" className="btn-primary" style={{ fontSize: '1.5rem', padding: '1rem 2.5rem' }}>
+            <a href="https://chat-app.cloudvault.cloud" className="btn-primary" style={{ fontSize: '1.5rem', padding: '1rem 2.5rem' }}>
               Launch Chat Engine 🚀
             </a>
           </div>
