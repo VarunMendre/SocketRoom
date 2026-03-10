@@ -102,6 +102,7 @@ resources:
         DistributionConfig:
           Aliases:
             - chat-me.cloudvault.cloud
+            - chat-app.cloudvault.cloud
           Origins:
             - DomainName: !GetAtt FrontendBucket.RegionalDomainName
               Id: S3Origin
@@ -125,6 +126,6 @@ resources:
             DefaultTTL: 3600
             MaxTTL: 86400
           ViewerCertificate:
-            AcmCertificateArn: "arn:aws:acm:us-east-1:788184848977:certificate/4cf2a14a-2e01-41bf-985a-92af3231afdf"
+            AcmCertificateArn: "arn:aws:acm:us-east-1:788184848977:certificate/5be1d958-e6bb-4321-949d-58a6db7d09a8"
             SslSupportMethod: sni-only
             MinimumProtocolVersion: TLSv1.2_2021
