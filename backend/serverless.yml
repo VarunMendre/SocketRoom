@@ -26,9 +26,7 @@ provider:
           Resource: 
             - "arn:aws:execute-api:*:*:*/@connections/*"
 
-plugins:
-  - serverless-plugin-include-dependencies
-  - serverless-s3-sync
+plugins: []
 
 functions: 
   apiHandler: 
@@ -47,11 +45,6 @@ functions:
           route: $disconnect
       - websocket: 
           route: $default
-
-custom:
-  s3Sync:
-    - bucketName: ${self:service}-frontend-${sls:stage}
-      localDir: ../frontend/build 
 
 resources:
   Resources:

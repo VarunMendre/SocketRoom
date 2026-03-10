@@ -23,8 +23,6 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.9",
-    "serverless": "^3.39.0",
-    "serverless-plugin-include-dependencies": "^6.1.1",
-    "serverless-s3-sync": "^3.5.1"
+    "serverless": "^3.39.0"
   }
 }
