@@ -102,6 +102,7 @@ resources:
         DistributionConfig:
           Aliases:
             - chat-me.cloudvault.cloud
+            - app.chat-me.cloudvault.cloud
           Origins:
             - DomainName: !GetAtt FrontendBucket.RegionalDomainName
               Id: S3Origin
