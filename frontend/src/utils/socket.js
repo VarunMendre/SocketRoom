@@ -23,6 +23,14 @@ if (isDevelopment) {
             if (!listeners[event]) listeners[event] = [];
             listeners[event].push(callback);
         },
+        off: (event, callback) => {
+            if (!listeners[event]) return;
+            listeners[event] = listeners[event].filter(cb => cb !== callback);
+        },
+        removeListener: (event, callback) => {
+            if (!listeners[event]) return;
+            listeners[event] = listeners[event].filter(cb => cb !== callback);
+        },
         emit: (event, data) => {
             if (ws.readyState === WebSocket.OPEN) {
                 // AWS Lambda expects this format for the $default route

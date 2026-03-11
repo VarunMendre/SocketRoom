@@ -6,26 +6,24 @@ import LandingPage from './pages/LandingPage';
 
 function App() {
   const hostname = window.location.hostname;
-  const isAppSubdomain = hostname.startsWith('chat-app.');
-
-  // If we are on the main domain (chat-me.cloudvault.cloud), default to landing
-  if (!isAppSubdomain && hostname !== 'localhost' && hostname !== '127.0.0.1') {
-    return (
-      <Router>
-        <Routes>
-          <Route path="*" element={<LandingPage />} />
-        </Routes>
-      </Router>
-    );
-  }
+  // Detect if we are on the app subdomain or local development
+  const isAppSubdomain = hostname.startsWith('chat-app.') || hostname === 'localhost' || hostname === '127.0.0.1';
 
   return (
     <Router>
       <div style={{ width: '100%', minHeight: '100vh' }}>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/landing" element={<LandingPage />} />
-          <Route path="/chat/:roomId" element={<ChatRoom />} />
+          {isAppSubdomain ? (
+            // App Subdomain Routes
+            <>
+              <Route path="/" element={<Home />} />
+              <Route path="/landing" element={<LandingPage />} />
+              <Route path="/chat/:roomId" element={<ChatRoom />} />
+            </>
+          ) : (
+            // Main Domain (Landing Only)
+            <Route path="*" element={<LandingPage />} />
+          )}
         </Routes>
       </div>
     </Router>
