@@ -28,7 +28,7 @@ const styles = `
 
   .nb-title {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(5rem, 22vw, 8rem);
+    font-size: clamp(3.5rem, 18vw, 8rem);
     letter-spacing: 0.05em;
     color: #ff3c00;
     line-height: 1;

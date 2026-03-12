@@ -103,10 +103,11 @@ body {
 .text-pink { color: var(--vibrant-pink); }
 
 .hero-sub {
-  font-size: 1.25rem;
-  max-width: 700px;
+  font-size: clamp(1rem, 4vw, 1.25rem);
+  max-width: 800px;
   margin: 0 auto 3rem;
   font-weight: 500;
+  line-height: 1.6;
 }
 
 /* Info Cards / Services */
@@ -123,9 +124,17 @@ body {
 
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
   padding: 4rem 5%;
+}
+
+@media (max-width: 480px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 2rem 5%;
+  }
 }
 
 .service-card {
@@ -179,11 +188,18 @@ body {
 
 .info-text-block {
   flex: 1;
-  min-width: 300px;
+  min-width: 280px;
   background: white;
   border: var(--border-width) solid var(--deep-black);
   padding: 2.5rem;
   box-shadow: 10px 10px 0px var(--deep-black);
+}
+
+@media (max-width: 480px) {
+    .info-text-block {
+        padding: 1.5rem;
+        box-shadow: 6px 6px 0px var(--deep-black);
+    }
 }
 
 .info-text-block h2 {
@@ -248,6 +264,15 @@ body {
 }
 
 @media (max-width: 768px) {
-    .headline { font-size: 3.5rem; }
-    .section-title { font-size: 2rem; }
+    .headline { font-size: clamp(3rem, 15vw, 4.5rem); }
+    .section-title { font-size: clamp(2rem, 8vw, 2.5rem); }
+    .landing-nav { padding: 1rem 5%; }
+    .hero-section { padding: 4rem 5%; }
+}
+
+@media (max-width: 480px) {
+    .logo { font-size: 1.4rem; }
+    .btn-primary { padding: 0.6rem 1rem; font-size: 0.9rem; }
+    .marquee-item { font-size: 1.2rem; padding-right: 1.5rem; }
+    .hero-btns .btn-primary { font-size: 1.1rem !important; padding: 0.8rem 1.5rem !important; width: 100%; }
 }

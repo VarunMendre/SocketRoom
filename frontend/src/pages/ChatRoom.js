@@ -36,10 +36,17 @@ import React, { useState, useEffect, useRef } from 'react';
       flex-direction: column;
       height: 100vh;
       height: 100dvh;
-      width: 80%;
-      max-width: 100%;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
       background: #f5f0e8;
-      box-shadow: 0 0 0 1px #ccc;
+      box-shadow: 0 0 0 1px #ccc, 12px 12px 0px #111;
+    }
+
+    @media (max-width: 1200px) {
+      .nb-chat-root {
+        box-shadow: 0 0 0 1px #ccc;
+      }
     }
 
     /* ── Username screen ── */
@@ -133,6 +140,13 @@ import React, { useState, useEffect, useRef } from 'react';
       align-items: center;
       flex-shrink: 0;
       z-index: 30;
+      border-bottom: 3px solid #ffd000;
+    }
+
+    @media (max-width: 480px) {
+      .nb-header {
+        padding: 10px 12px;
+      }
     }
 
     .nb-header-left { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
@@ -343,11 +357,11 @@ import React, { useState, useEffect, useRef } from 'react';
       display: flex;
       align-items: flex-end;
       gap: 10px;
-      max-width: 85%;
+      max-width: 92%;
     }
 
     @media (min-width: 769px) {
-      .nb-msg-inner { max-width: min(60%, 700px); }
+      .nb-msg-inner { max-width: min(75%, 800px); }
     }
 
     .nb-msg-row.me .nb-msg-inner { flex-direction: row-reverse; }
@@ -355,11 +369,11 @@ import React, { useState, useEffect, useRef } from 'react';
     .nb-bubble-wrap { position: relative; max-width: 100%; }
 
     .nb-bubble {
-      padding: 14px 18px;
+      padding: 12px 16px;
       border: 3px solid #111;
-      font-size: clamp(0.95rem, 4vw, 1rem);
+      font-size: clamp(0.9rem, 3.8vw, 1rem);
       font-weight: 400;
-      line-height: 1.6;
+      line-height: 1.5;
       word-break: break-word;
       position: relative;
     }
@@ -367,12 +381,12 @@ import React, { useState, useEffect, useRef } from 'react';
     .nb-bubble.them { background: #ffd000; color: #111; box-shadow: 4px 4px 0 #111; }
 
     .nb-sender-name {
-      font-size: clamp(0.65rem, 2.8vw, 0.72rem);
+      font-size: clamp(0.6rem, 2.5vw, 0.7rem);
       font-weight: 700;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
       color: #111;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .nb-reply-preview {
@@ -595,8 +609,12 @@ import React, { useState, useEffect, useRef } from 'react';
     .nb-input-row {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       position: relative;
+    }
+
+    @media (max-width: 480px) {
+      .nb-input-row { gap: 6px; }
     }
 
     .nb-input-wrap {
@@ -641,9 +659,9 @@ import React, { useState, useEffect, useRef } from 'react';
       background: #bbff00;
       border: 3px solid #111;
       box-shadow: 4px 4px 0 #111;
-      color: #fff;
-      width: 56px;
-      height: 56px;
+      color: #111;
+      width: 52px;
+      height: 52px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -653,6 +671,14 @@ import React, { useState, useEffect, useRef } from 'react';
       touch-action: manipulation;
       -webkit-tap-highlight-color: transparent;
     }
+
+    @media (max-width: 480px) {
+      .nb-send-btn {
+        width: 48px;
+        height: 48px;
+      }
+    }
+
     .nb-send-btn:hover:not(:disabled) { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 #111; }
     .nb-send-btn:active:not(:disabled) { transform: translate(2px,2px); box-shadow: 2px 2px 0 #111; }
     .nb-send-btn:disabled { background: #ccc; opacity: 0.5; cursor: not-allowed; box-shadow: 2px 2px 0 #888; }
