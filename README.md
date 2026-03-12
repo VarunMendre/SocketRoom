@@ -2,7 +2,7 @@
 
 ChatMe is a brutal, lightning-fast, real-time messaging application that requires zero registration. Create a room, share the ID, and start chatting instantly.
 
-![ChatMe Preview](https://chat-me.cloudvault.cloud/landing/preview.png)
+![ChatMe Preview](https://chat-me.cloudvault.cloud/landing)
 
 ## 🚀 Key Features
 
