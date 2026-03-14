@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
-import { PlusCircle, LogIn, Info } from 'lucide-react';
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
+import { PlusCircle, LogIn, Info } from "lucide-react";
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&display=swap');
@@ -39,7 +39,7 @@ const styles = `
 
   .nb-subtitle {
     font-family: 'Space Mono', monospace;
-    font-size: clamp(0.7rem, 3.5vw, 0.85rem);
+    font-size: clamp(0.9rem, 3.5vw, 0.85rem);
     font-weight: 700;
     letter-spacing: 0.25em;
     color: #111;
@@ -71,7 +71,7 @@ const styles = `
     box-shadow: 5px 5px 0px #111;
     padding: 20px 24px;
     font-family: 'Space Mono', monospace;
-    font-size: clamp(0.9rem, 4vw, 1rem);
+    font-size: clamp(1rem, 4vw, 1rem);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -101,14 +101,14 @@ const styles = `
     background: #ffd000;
     border: 3px solid #111;
     padding: 3px 12px;
-    font-size: clamp(0.7rem, 3vw, 0.8rem);
+    font-size: clamp(0.9rem, 3vw, 0.8rem);
     font-weight: 700;
     letter-spacing: 0.2em;
     color: #111;
   }
 
   .nb-input-label {
-    font-size: clamp(0.65rem, 2.8vw, 0.75rem);
+    font-size: clamp(0.85rem, 2.8vw, 0.75rem);
     font-weight: 700;
     letter-spacing: 0.25em;
     text-transform: uppercase;
@@ -140,7 +140,7 @@ const styles = `
     box-shadow: 5px 5px 0px #111;
     padding: 20px 24px;
     font-family: 'Space Mono', monospace;
-    font-size: clamp(0.9rem, 4vw, 1rem);
+    font-size: clamp(1rem, 4vw, 1rem);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -166,7 +166,7 @@ const styles = `
     box-shadow: 5px 5px 0px #111;
     padding: 12px 24px;
     font-family: 'Space Mono', monospace;
-    font-size: 0.8rem;
+    font-size: 0.95rem;
     font-weight: 700;
     text-transform: uppercase;
     cursor: pointer;
@@ -188,7 +188,7 @@ const styles = `
     background: #111;
     color: #ffd000;
     font-family: 'Space Mono', monospace;
-    font-size: 0.55rem;
+    font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.15em;
     padding: 6px 10px;
@@ -201,7 +201,7 @@ const styles = `
 `;
 
 function Home() {
-  const [roomId, setRoomId] = useState('');
+  const [roomId, setRoomId] = useState("");
   const navigate = useNavigate();
 
   const createNewRoom = () => {
@@ -221,7 +221,7 @@ function Home() {
       <style>{styles}</style>
       <div className="nb-root">
         <h1 className="nb-title">Chat-ME</h1>
-        <div className="nb-subtitle">{'// Real-time messaging'}</div>
+        <div className="nb-subtitle">{"// Real-time messaging"}</div>
 
         <div className="nb-card">
           <button onClick={createNewRoom} className="nb-btn-primary">
@@ -235,7 +235,10 @@ function Home() {
             <div className="nb-divider-line" />
           </div>
 
-          <form onSubmit={joinRoom} style={{ display: 'flex', flexDirection: 'column' }}>
+          <form
+            onSubmit={joinRoom}
+            style={{ display: "flex", flexDirection: "column" }}
+          >
             <label className="nb-input-label">Enter Room ID</label>
             <input
               type="text"
@@ -256,7 +259,7 @@ function Home() {
           </Link>
         </div>
 
-        <div className="nb-corner-tag">{'//Made By Varun Mendre'}</div>
+        <div className="nb-corner-tag">{"//Made By Varun Mendre"}</div>
       </div>
     </>
   );

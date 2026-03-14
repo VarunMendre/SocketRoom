@@ -1,21 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react';
-  import { useParams, useNavigate } from 'react-router-dom';
-  import {
-    Send,
-    Smile,
-    Copy,
-    Users,
-    Search,
-    Download,
-    Trash2,
-    Reply,
-    X,
-    ArrowLeft,
-    CheckCheck
-  } from 'lucide-react';
-  import socket from '../utils/socket';
+import React, { useState, useEffect, useRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import {
+  Send,
+  Smile,
+  Copy,
+  Users,
+  Search,
+  Download,
+  Trash2,
+  Reply,
+  X,
+  ArrowLeft,
+  CheckCheck,
+} from "lucide-react";
+import socket from "../utils/socket";
 
-  const styles = `
+const styles = `
     @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&display=swap');
 
     * { box-sizing: border-box; }
@@ -86,7 +86,7 @@ import React, { useState, useEffect, useRef } from 'react';
     }
 
     .nb-login-label {
-      font-size: clamp(0.65rem, 3vw, 0.75rem);
+      font-size: clamp(0.85rem, 3vw, 0.75rem);
       font-weight: 700;
       letter-spacing: 0.3em;
       text-transform: uppercase;
@@ -118,7 +118,7 @@ import React, { useState, useEffect, useRef } from 'react';
       box-shadow: 5px 5px 0 #111;
       padding: 20px;
       font-family: 'Space Mono', monospace;
-      font-size: clamp(0.9rem, 4vw, 1.05rem);
+      font-size: clamp(1rem, 4vw, 1.05rem);
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.1em;
@@ -196,7 +196,7 @@ import React, { useState, useEffect, useRef } from 'react';
 
     .nb-room-name {
       color: #fff;
-      font-size: clamp(0.8rem, 3.5vw, 1rem);
+      font-size: clamp(0.95rem, 3.5vw, 1rem);
       font-weight: 700;
       letter-spacing: 0.05em;
       white-space: nowrap;
@@ -221,7 +221,7 @@ import React, { useState, useEffect, useRef } from 'react';
 
     .nb-online-label {
       color: #00e676;
-      font-size: clamp(0.55rem, 2.2vw, 0.65rem);
+      font-size: clamp(0.8rem, 2.2vw, 0.65rem);
       font-weight: 700;
       letter-spacing: 0.3em;
       text-transform: uppercase;
@@ -239,7 +239,7 @@ import React, { useState, useEffect, useRef } from 'react';
       align-items: center;
       gap: 4px;
       font-family: 'Space Mono', monospace;
-      font-size: clamp(0.65rem, 2.5vw, 0.75rem);
+      font-size: clamp(0.85rem, 2.5vw, 0.75rem);
       font-weight: 700;
       transition: all 0.1s;
       touch-action: manipulation;
@@ -261,7 +261,7 @@ import React, { useState, useEffect, useRef } from 'react';
     }
 
     .nb-panel-title {
-      font-size: clamp(0.65rem, 2.8vw, 0.75rem);
+      font-size: clamp(0.85rem, 2.8vw, 0.75rem);
       font-weight: 700;
       letter-spacing: 0.3em;
       text-transform: uppercase;
@@ -277,7 +277,7 @@ import React, { useState, useEffect, useRef } from 'react';
       color: #111;
       border: 2px solid #111;
       padding: 2px 10px;
-      font-size: clamp(0.65rem, 2.5vw, 0.75rem);
+      font-size: clamp(0.85rem, 2.5vw, 0.75rem);
       font-weight: 700;
     }
 
@@ -290,7 +290,7 @@ import React, { useState, useEffect, useRef } from 'react';
       background: #f5f0e8;
       border: 2px solid #111;
       padding: 8px 14px;
-      font-size: clamp(0.75rem, 3vw, 0.85rem);
+      font-size: clamp(0.9rem, 3vw, 0.85rem);
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.05em;
@@ -337,7 +337,7 @@ import React, { useState, useEffect, useRef } from 'react';
     .nb-system-tag {
       background: #111;
       color: #ffd000;
-      font-size: clamp(0.6rem, 2.5vw, 0.7rem);
+      font-size: clamp(0.85rem, 2.5vw, 0.7rem);
       font-weight: 700;
       letter-spacing: 0.2em;
       text-transform: uppercase;
@@ -371,7 +371,7 @@ import React, { useState, useEffect, useRef } from 'react';
     .nb-bubble {
       padding: 12px 16px;
       border: 3px solid #111;
-      font-size: clamp(0.9rem, 3.8vw, 1rem);
+      font-size: clamp(1rem, 3.8vw, 1rem);
       font-weight: 400;
       line-height: 1.5;
       word-break: break-word;
@@ -381,7 +381,7 @@ import React, { useState, useEffect, useRef } from 'react';
     .nb-bubble.them { background: #ffd000; color: #111; box-shadow: 4px 4px 0 #111; }
 
     .nb-sender-name {
-      font-size: clamp(0.6rem, 2.5vw, 0.7rem);
+      font-size: clamp(0.85rem, 2.5vw, 0.7rem);
       font-weight: 700;
       letter-spacing: 0.15em;
       text-transform: uppercase;
@@ -394,12 +394,12 @@ import React, { useState, useEffect, useRef } from 'react';
       padding: 6px 10px;
       margin-bottom: 10px;
       background: #f0f0f0;
-      font-size: clamp(0.75rem, 3vw, 0.82rem);
+      font-size: clamp(0.9rem, 3vw, 0.82rem);
     }
     .nb-bubble.me .nb-reply-preview { border-color: #ffbb00; background: fff8e1; color: 555; }
     .nb-bubble.them .nb-reply-preview { border-color: #bbff00; background: #fff8e1; color: #555; }
 
-    .nb-reply-who { font-weight: 700; font-size: clamp(0.65rem, 2.8vw, 0.72rem); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 2px; display: flex; align-items: center; gap: 4px; }
+    .nb-reply-who { font-weight: 700; font-size: clamp(0.85rem, 2.8vw, 0.72rem); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 2px; display: flex; align-items: center; gap: 4px; }
     .nb-reply-text { font-style: italic; opacity: 0.7; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
     .nb-reactions {
@@ -417,7 +417,7 @@ import React, { useState, useEffect, useRef } from 'react';
       color: #111;
       border: 2px solid #111;
       padding: 2px 8px;
-      font-size: clamp(0.72rem, 3vw, 0.8rem);
+      font-size: clamp(0.9rem, 3vw, 0.8rem);
       font-weight: 700;
       cursor: pointer;
       display: flex;
@@ -495,7 +495,7 @@ import React, { useState, useEffect, useRef } from 'react';
       align-items: center;
       gap: 5px;
       padding: 0 4px;
-      font-size: clamp(0.65rem, 2.5vw, 0.72rem);
+      font-size: clamp(0.85rem, 2.5vw, 0.72rem);
       font-weight: 700;
       letter-spacing: 0.05em;
       color: #aaa;
@@ -522,7 +522,7 @@ import React, { useState, useEffect, useRef } from 'react';
     }
     .nb-typing-dot:nth-child(2) { animation-delay: 0.15s; }
     .nb-typing-dot:nth-child(3) { animation-delay: 0.3s; }
-    .nb-typing-text { color: #ffd000; font-size: clamp(0.65rem, 2.8vw, 0.72rem); font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; }
+    .nb-typing-text { color: #ffd000; font-size: clamp(0.85rem, 2.8vw, 0.72rem); font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; }
 
     /* ── Input area ── */
     .nb-input-area {
@@ -547,8 +547,8 @@ import React, { useState, useEffect, useRef } from 'react';
       animation: slideDown 0.15s ease;
     }
 
-    .nb-reply-label { font-size: clamp(0.62rem, 2.5vw, 0.7rem); font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #111; }
-    .nb-reply-quote { font-size: clamp(0.78rem, 3.2vw, 0.85rem); color: #444; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+    .nb-reply-label { font-size: clamp(0.85rem, 2.5vw, 0.7rem); font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #111; }
+    .nb-reply-quote { font-size: clamp(0.95rem, 3.2vw, 0.85rem); color: #444; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
 
     .nb-cancel-reply {
       background: #111;
@@ -597,7 +597,7 @@ import React, { useState, useEffect, useRef } from 'react';
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: clamp(1.2rem, 5vw, 1.4rem);
+      font-size: clamp(1.5rem, 5vw, 1.4rem);
       background: transparent;
       border: 2px solid transparent;
       cursor: pointer;
@@ -686,7 +686,7 @@ import React, { useState, useEffect, useRef } from 'react';
     /* ── Empty state ── */
     .nb-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 20px; opacity: 0.35; }
     .nb-empty-icon { font-size: 3rem; margin-bottom: 10px; }
-    .nb-empty-text { font-size: clamp(0.75rem, 3vw, 0.85rem); font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
+    .nb-empty-text { font-size: clamp(0.9rem, 3vw, 0.85rem); font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
 
     /* ── Keyframes ── */
     @keyframes bounce {
@@ -707,435 +707,609 @@ import React, { useState, useEffect, useRef } from 'react';
     }
   `;
 
-  function ChatRoom() {
-    const [messages, setMessages] = useState([]);
-    const [message, setMessage] = useState('');
-    const [username, setUsername] = useState('');
-    const [isUsernameSet, setIsUsernameSet] = useState(false);
-    const [typingStatus, setTypingStatus] = useState('');
-    const [onlineUsers, setOnlineUsers] = useState([]);
-    const [showUsers, setShowUsers] = useState(false);
-    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [showSearch, setShowSearch] = useState(false);
-    const [replyingTo, setReplyingTo] = useState(null);
-    const [showReactionPicker, setShowReactionPicker] = useState(null);
+function ChatRoom() {
+  const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState("");
+  const [username, setUsername] = useState("");
+  const [isUsernameSet, setIsUsernameSet] = useState(false);
+  const [typingStatus, setTypingStatus] = useState("");
+  const [onlineUsers, setOnlineUsers] = useState([]);
+  const [showUsers, setShowUsers] = useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showSearch, setShowSearch] = useState(false);
+  const [replyingTo, setReplyingTo] = useState(null);
+  const [showReactionPicker, setShowReactionPicker] = useState(null);
 
-    const messagesEndRef = useRef(null);
-    const emojiPickerRef = useRef(null);
-    const emojiToggleRef = useRef(null);
-    const usersPanelRef = useRef(null);
-    const usersToggleRef = useRef(null);
-    const searchPanelRef = useRef(null);
-    const searchToggleRef = useRef(null);
-    const reactionPickerRef = useRef(null);
+  const messagesEndRef = useRef(null);
+  const emojiPickerRef = useRef(null);
+  const emojiToggleRef = useRef(null);
+  const usersPanelRef = useRef(null);
+  const usersToggleRef = useRef(null);
+  const searchPanelRef = useRef(null);
+  const searchToggleRef = useRef(null);
+  const reactionPickerRef = useRef(null);
 
-    const { roomId } = useParams();
-    const navigate = useNavigate();
+  const { roomId } = useParams();
+  const navigate = useNavigate();
 
-    const emojis = ['😀', '😂', '❤️', '👍', '👎', '🎉', '🔥', '✨', '💯', '🚀', '👋', '💬', '📷', '🎵', '⭐'];
-    const reactionEmojis = ['👍', '❤️', '😂', '😮', '😭', '😢', '🔥', '🎉', '👏'];
+  const emojis = [
+    "😀",
+    "😂",
+    "❤️",
+    "👍",
+    "👎",
+    "🎉",
+    "🔥",
+    "✨",
+    "💯",
+    "🚀",
+    "👋",
+    "💬",
+    "📷",
+    "🎵",
+    "⭐",
+  ];
+  const reactionEmojis = ["👍", "❤️", "😂", "😮", "😭", "😢", "🔥", "🎉", "👏"];
 
-    useEffect(() => {
-      if (!roomId || !username || !isUsernameSet) return;
-      socket.emit('join_room', { roomId, username });
+  useEffect(() => {
+    if (!roomId || !username || !isUsernameSet) return;
+    socket.emit("join_room", { roomId, username });
 
-      const handleMessage = (data) => setMessages((prev) => [...prev, data]);
-      const handleTyping = (data) => {
-        if (data.username !== username) {
-          setTypingStatus(`${data.username} is typing...`);
-          clearTimeout(window.typingTimeout);
-          window.typingTimeout = setTimeout(() => setTypingStatus(''), 1500);
-        }
-      };
-      const handleUsersUpdate = (users) => setOnlineUsers(users);
-      const handleUserJoined = (data) => setMessages((prev) => [...prev, { type: 'system', message: `${data.username} joined the room`, timestamp: data.timestamp }]);
-      const handleUserLeft = (data) => setMessages((prev) => [...prev, { type: 'system', message: `${data.username} left the room`, timestamp: data.timestamp }]);
-      const handleReactionAdded = (data) => setMessages((prev) => prev.map((msg) => {
-        if (msg.id !== data.messageId) return msg;
-        const reactions = { ...msg.reactions };
-        if (!reactions[data.emoji]) reactions[data.emoji] = [];
-        if (!reactions[data.emoji].includes(data.username)) reactions[data.emoji].push(data.username);
-        return { ...msg, reactions };
-      }));
-      const handleReactionRemoved = (data) => setMessages((prev) => prev.map((msg) => {
-        if (msg.id !== data.messageId) return msg;
-        const reactions = { ...msg.reactions };
-        if (reactions[data.emoji]) {
-          reactions[data.emoji] = reactions[data.emoji].filter((u) => u !== data.username);
-          if (reactions[data.emoji].length === 0) delete reactions[data.emoji];
-        }
-        return { ...msg, reactions };
-      }));
-
-      socket.on('chat message', handleMessage);
-      socket.on('typing', handleTyping);
-      socket.on('users_update', handleUsersUpdate);
-      socket.on('user_joined', handleUserJoined);
-      socket.on('user_left', handleUserLeft);
-      socket.on('reaction_added', handleReactionAdded);
-      socket.on('reaction_removed', handleReactionRemoved);
-
-      return () => {
-        socket.off('chat message', handleMessage);
-        socket.off('typing', handleTyping);
-        socket.off('users_update', handleUsersUpdate);
-        socket.off('user_joined', handleUserJoined);
-        socket.off('user_left', handleUserLeft);
-        socket.off('reaction_added', handleReactionAdded);
-        socket.off('reaction_removed', handleReactionRemoved);
-      };
-    }, [roomId, username, isUsernameSet]);
-
-    useEffect(() => {
-      const handleClickOutside = (event) => {
-        if (showEmojiPicker && emojiPickerRef.current && !emojiPickerRef.current.contains(event.target) && emojiToggleRef.current && !emojiToggleRef.current.contains(event.target)) setShowEmojiPicker(false);
-        if (showUsers && usersPanelRef.current && !usersPanelRef.current.contains(event.target) && usersToggleRef.current && !usersToggleRef.current.contains(event.target)) setShowUsers(false);
-        if (showSearch && searchPanelRef.current && !searchPanelRef.current.contains(event.target) && searchToggleRef.current && !searchToggleRef.current.contains(event.target)) setShowSearch(false);
-        if (showReactionPicker && reactionPickerRef.current && !reactionPickerRef.current.contains(event.target)) setShowReactionPicker(null);
-      };
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, [showEmojiPicker, showUsers, showSearch, showReactionPicker]);
-
-    useEffect(() => {
-      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [messages]);
-
-    const sendMessage = () => {
-      if (message.trim() && username) {
-        const messageData = { room: roomId, username, message, timestamp: new Date().toISOString(), replyTo: replyingTo };
-        socket.emit('chat message', messageData);
-        setMessage('');
-        setReplyingTo(null);
-        setShowEmojiPicker(false);
+    const handleMessage = (data) => setMessages((prev) => [...prev, data]);
+    const handleTyping = (data) => {
+      if (data.username !== username) {
+        setTypingStatus(`${data.username} is typing...`);
+        clearTimeout(window.typingTimeout);
+        window.typingTimeout = setTimeout(() => setTypingStatus(""), 1500);
       }
     };
-
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      sendMessage();
-    };
-
-    const handleUsernameSubmit = (e) => {
-      e.preventDefault();
-      if (username.trim()) setIsUsernameSet(true);
-    };
-
-    const copyRoomId = () => {
-      navigator.clipboard.writeText(roomId);
-      alert('Room ID copied!');
-    };
-
-    const addEmoji = (emoji) => setMessage((prev) => prev + emoji);
-
-    const clearChat = () => {
-      if (window.confirm('Clear chat history?')) setMessages([]);
-    };
-
-    const exportChat = () => {
-      const chatText = messages.map((msg) => msg.type === 'system' ? `[${new Date(msg.timestamp).toLocaleString()}] ${msg.message}` : `[${new Date(msg.timestamp).toLocaleString()}] ${msg.username}: ${msg.message}`).join('\n');
-      const blob = new Blob([chatText], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = `chat-${roomId}-${Date.now()}.txt`; a.click();
-      URL.revokeObjectURL(url);
-    };
-
-    const handleReply = (msg) => setReplyingTo({ id: msg.id, username: msg.username, message: msg.message });
-    const cancelReply = () => setReplyingTo(null);
-
-    const handleReaction = (messageId, emoji) => {
-      const msg = messages.find((m) => m.id === messageId);
-      if (!msg) return;
-      const reactions = msg.reactions || {};
-      const hasReacted = reactions[emoji]?.includes(username);
-      if (hasReacted) socket.emit('remove_reaction', { room: roomId, messageId, emoji, username });
-      else socket.emit('add_reaction', { room: roomId, messageId, emoji, username });
-      setShowReactionPicker(null);
-    };
-
-    const filteredMessages = searchQuery
-      ? messages.filter((msg) => msg.message?.toLowerCase().includes(searchQuery.toLowerCase()) || msg.username?.toLowerCase().includes(searchQuery.toLowerCase()))
-      : messages;
-
-    if (!isUsernameSet) {
-      return (
-        <>
-          <style>{styles}</style>
-          <div className="nb-username-screen">
-            <h2 className="nb-login-title">Chat-ME</h2>
-            <div className="nb-login-card">
-              <form onSubmit={handleUsernameSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                <div>
-                  <label className="nb-login-label">Who are you?</label>
-                  <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Enter username..."
-                    maxLength={20}
-                    className="nb-login-input"
-                  />
-                </div>
-                <button type="submit" className="nb-login-btn">
-                  Enter Room →
-                </button>
-              </form>
-            </div>
-          </div>
-        </>
+    const handleUsersUpdate = (users) => setOnlineUsers(users);
+    const handleUserJoined = (data) =>
+      setMessages((prev) => [
+        ...prev,
+        {
+          type: "system",
+          message: `${data.username} joined the room`,
+          timestamp: data.timestamp,
+        },
+      ]);
+    const handleUserLeft = (data) =>
+      setMessages((prev) => [
+        ...prev,
+        {
+          type: "system",
+          message: `${data.username} left the room`,
+          timestamp: data.timestamp,
+        },
+      ]);
+    const handleReactionAdded = (data) =>
+      setMessages((prev) =>
+        prev.map((msg) => {
+          if (msg.id !== data.messageId) return msg;
+          const reactions = { ...msg.reactions };
+          if (!reactions[data.emoji]) reactions[data.emoji] = [];
+          if (!reactions[data.emoji].includes(data.username))
+            reactions[data.emoji].push(data.username);
+          return { ...msg, reactions };
+        }),
       );
-    }
+    const handleReactionRemoved = (data) =>
+      setMessages((prev) =>
+        prev.map((msg) => {
+          if (msg.id !== data.messageId) return msg;
+          const reactions = { ...msg.reactions };
+          if (reactions[data.emoji]) {
+            reactions[data.emoji] = reactions[data.emoji].filter(
+              (u) => u !== data.username,
+            );
+            if (reactions[data.emoji].length === 0)
+              delete reactions[data.emoji];
+          }
+          return { ...msg, reactions };
+        }),
+      );
 
+    socket.on("chat message", handleMessage);
+    socket.on("typing", handleTyping);
+    socket.on("users_update", handleUsersUpdate);
+    socket.on("user_joined", handleUserJoined);
+    socket.on("user_left", handleUserLeft);
+    socket.on("reaction_added", handleReactionAdded);
+    socket.on("reaction_removed", handleReactionRemoved);
+
+    return () => {
+      socket.off("chat message", handleMessage);
+      socket.off("typing", handleTyping);
+      socket.off("users_update", handleUsersUpdate);
+      socket.off("user_joined", handleUserJoined);
+      socket.off("user_left", handleUserLeft);
+      socket.off("reaction_added", handleReactionAdded);
+      socket.off("reaction_removed", handleReactionRemoved);
+    };
+  }, [roomId, username, isUsernameSet]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        showEmojiPicker &&
+        emojiPickerRef.current &&
+        !emojiPickerRef.current.contains(event.target) &&
+        emojiToggleRef.current &&
+        !emojiToggleRef.current.contains(event.target)
+      )
+        setShowEmojiPicker(false);
+      if (
+        showUsers &&
+        usersPanelRef.current &&
+        !usersPanelRef.current.contains(event.target) &&
+        usersToggleRef.current &&
+        !usersToggleRef.current.contains(event.target)
+      )
+        setShowUsers(false);
+      if (
+        showSearch &&
+        searchPanelRef.current &&
+        !searchPanelRef.current.contains(event.target) &&
+        searchToggleRef.current &&
+        !searchToggleRef.current.contains(event.target)
+      )
+        setShowSearch(false);
+      if (
+        showReactionPicker &&
+        reactionPickerRef.current &&
+        !reactionPickerRef.current.contains(event.target)
+      )
+        setShowReactionPicker(null);
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [showEmojiPicker, showUsers, showSearch, showReactionPicker]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  const sendMessage = () => {
+    if (message.trim() && username) {
+      const messageData = {
+        room: roomId,
+        username,
+        message,
+        timestamp: new Date().toISOString(),
+        replyTo: replyingTo,
+      };
+      socket.emit("chat message", messageData);
+      setMessage("");
+      setReplyingTo(null);
+      setShowEmojiPicker(false);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    sendMessage();
+  };
+
+  const handleUsernameSubmit = (e) => {
+    e.preventDefault();
+    if (username.trim()) setIsUsernameSet(true);
+  };
+
+  const copyRoomId = () => {
+    navigator.clipboard.writeText(roomId);
+    alert("Room ID copied!");
+  };
+
+  const addEmoji = (emoji) => setMessage((prev) => prev + emoji);
+
+  const clearChat = () => {
+    if (window.confirm("Clear chat history?")) setMessages([]);
+  };
+
+  const exportChat = () => {
+    const chatText = messages
+      .map((msg) =>
+        msg.type === "system"
+          ? `[${new Date(msg.timestamp).toLocaleString()}] ${msg.message}`
+          : `[${new Date(msg.timestamp).toLocaleString()}] ${msg.username}: ${msg.message}`,
+      )
+      .join("\n");
+    const blob = new Blob([chatText], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `chat-${roomId}-${Date.now()}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleReply = (msg) =>
+    setReplyingTo({ id: msg.id, username: msg.username, message: msg.message });
+  const cancelReply = () => setReplyingTo(null);
+
+  const handleReaction = (messageId, emoji) => {
+    const msg = messages.find((m) => m.id === messageId);
+    if (!msg) return;
+    const reactions = msg.reactions || {};
+    const hasReacted = reactions[emoji]?.includes(username);
+    if (hasReacted)
+      socket.emit("remove_reaction", {
+        room: roomId,
+        messageId,
+        emoji,
+        username,
+      });
+    else
+      socket.emit("add_reaction", { room: roomId, messageId, emoji, username });
+    setShowReactionPicker(null);
+  };
+
+  const filteredMessages = searchQuery
+    ? messages.filter(
+        (msg) =>
+          msg.message?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          msg.username?.toLowerCase().includes(searchQuery.toLowerCase()),
+      )
+    : messages;
+
+  if (!isUsernameSet) {
     return (
       <>
         <style>{styles}</style>
-        <div className="nb-chat-outer">
-          <div className="nb-chat-root">
-
-            {/* Header */}
-            <div className="nb-header">
-              <div className="nb-header-left">
-                <button onClick={() => navigate('/')} className="nb-back-btn" title="Leave Room">
-                  <ArrowLeft size={20} />
-                </button>
-                <div className="nb-avatar">
-                  {username.charAt(0).toUpperCase()}
-                  <div className="nb-online-dot" />
-                </div>
-                <div className="nb-room-info">
-                  <div className="nb-room-name">
-                    #{roomId.slice(0, 8)}
-                    <button onClick={copyRoomId} className="nb-copy-btn" title="Copy Room ID">
-                      <Copy size={12} />
-                    </button>
-                  </div>
-                  <span className="nb-online-label">● Online</span>
-                </div>
+        <div className="nb-username-screen">
+          <h2 className="nb-login-title">Chat-ME</h2>
+          <div className="nb-login-card">
+            <form
+              onSubmit={handleUsernameSubmit}
+              style={{ display: "flex", flexDirection: "column", gap: "16px" }}
+            >
+              <div>
+                <label className="nb-login-label">Who are you?</label>
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Enter username..."
+                  maxLength={20}
+                  className="nb-login-input"
+                />
               </div>
-
-              <div className="nb-header-actions">
-                <button
-                  ref={searchToggleRef}
-                  className={`nb-icon-btn ${showSearch ? 'active' : ''}`}
-                  onClick={() => setShowSearch(!showSearch)}
-                  title="Search"
-                >
-                  <Search size={18} />
-                </button>
-                <button
-                  ref={usersToggleRef}
-                  className={`nb-icon-btn user ${showUsers ? 'active' : ''}`}
-                  onClick={() => setShowUsers(!showUsers)}
-                  title="Users"
-                >
-                  <Users size={18} />
-                  <span>{onlineUsers.length}</span>
-                </button>
-                <button onClick={exportChat} className="nb-icon-btn download" title="Export" style={{ marginLeft: '8px' }}>
-                  <Download size={18} />
-                </button>
-                <button onClick={clearChat} className="nb-icon-btn danger" title="Clear Chat">
-                  <Trash2 size={18} />
-                </button>
-              </div>
-            </div>
-
-            {/* Users Panel */}
-            {showUsers && (
-              <div ref={usersPanelRef} className="nb-panel">
-                <div className="nb-panel-title">
-                  Active Members
-                  <span className="nb-badge">{onlineUsers.length}</span>
-                </div>
-                <div className="nb-users-list">
-                  {onlineUsers.map((user, i) => (
-                    <div key={i} className="nb-user-chip">
-                      <div className="nb-user-dot" />
-                      {user}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Search Panel */}
-            {showSearch && (
-              <div ref={searchPanelRef} className="nb-panel" style={{ padding: '12px 20px' }}>
-                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                  <input
-                    type="text"
-                    placeholder="Search messages..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="nb-search-input"
-                  />
-                  {searchQuery && (
-                    <button onClick={() => setSearchQuery('')} className="nb-action-btn">
-                      <X size={14} />
-                    </button>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* Messages */}
-            <div className="nb-messages">
-              {filteredMessages.length === 0 && searchQuery && (
-                <div className="nb-empty">
-                  <div className="nb-empty-icon">🔍</div>
-                  <div className="nb-empty-text">No results found</div>
-                </div>
-              )}
-
-              {filteredMessages.map((msg, index) => {
-                if (msg.type === 'system') {
-                  return (
-                    <div key={index} className="nb-system-msg">
-                      <span className="nb-system-tag">{msg.message}</span>
-                    </div>
-                  );
-                }
-
-                const isMe = msg.username === username;
-
-                return (
-                  <div key={msg.id || index} className={`nb-msg-row ${isMe ? 'me' : 'them'}`}>
-                    <div className="nb-msg-inner">
-                      <div className="nb-bubble-wrap">
-                        {/* Reaction Picker */}
-                        {showReactionPicker === msg.id && (
-                          <div ref={reactionPickerRef} className="nb-reaction-picker">
-                            {reactionEmojis.map((emoji) => (
-                              <button key={emoji} onClick={() => handleReaction(msg.id, emoji)} className="nb-emoji-btn-sm">{emoji}</button>
-                            ))}
-                          </div>
-                        )}
-
-                        {/* Bubble */}
-                        <div className={`nb-bubble ${isMe ? 'me' : 'them'}`}>
-                          {/* Reply preview */}
-                          {msg.replyTo && (
-                            <div className="nb-reply-preview">
-                              <div className="nb-reply-who"><Reply size={9} /> {msg.replyTo.username}</div>
-                              <div className="nb-reply-text">"{msg.replyTo.message}"</div>
-                            </div>
-                          )}
-
-                          {!isMe && <div className="nb-sender-name">{msg.username}</div>}
-
-                          <p style={{ margin: 0 }}>{msg.message}</p>
-
-                          {/* Reactions */}
-                          {msg.reactions && Object.keys(msg.reactions).length > 0 && (
-                            <div className="nb-reactions">
-                              {Object.entries(msg.reactions).map(([emoji, users]) => (
-                                <button
-                                  key={emoji}
-                                  className={`nb-reaction-badge ${users.includes(username) ? 'mine' : ''}`}
-                                  onClick={() => handleReaction(msg.id, emoji)}
-                                >
-                                  {emoji} {users.length}
-                                </button>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Side actions */}
-                      <div className="nb-side-actions">
-                        <button onClick={() => handleReply(msg)} className="nb-action-btn" title="Reply">
-                          <Reply size={13} />
-                        </button>
-                        <button onClick={() => setShowReactionPicker(showReactionPicker === msg.id ? null : msg.id)} className="nb-action-btn" title="React">
-                          <Smile size={13} />
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Meta row */}
-                    <div className="nb-meta">
-                      <span>{new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                      {isMe && <CheckCheck size={12} style={{ color: '#ff3c00' }} />}
-                    </div>
-                  </div>
-                );
-              })}
-              <div ref={messagesEndRef} />
-            </div>
-
-            {/* Typing indicator */}
-            {typingStatus && (
-              <div className="nb-typing">
-                <div className="nb-typing-dots">
-                  <div className="nb-typing-dot" />
-                  <div className="nb-typing-dot" />
-                  <div className="nb-typing-dot" />
-                </div>
-                <span className="nb-typing-text">{typingStatus}</span>
-              </div>
-            )}
-
-            {/* Input area */}
-            <div className="nb-input-area" style={{ position: 'relative' }}>
-              {/* Reply banner */}
-              {replyingTo && (
-                <div className="nb-reply-banner">
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div className="nb-reply-label">↩ Replying to {replyingTo.username}</div>
-                    <div className="nb-reply-quote">{replyingTo.message}</div>
-                  </div>
-                  <button onClick={cancelReply} className="nb-cancel-reply"><X size={13} /></button>
-                </div>
-              )}
-
-              {/* Emoji picker */}
-              {showEmojiPicker && (
-                <div ref={emojiPickerRef} className="nb-emoji-picker-popup">
-                  {emojis.map((emoji, i) => (
-                    <button key={i} onClick={() => addEmoji(emoji)} className="nb-emoji-btn">{emoji}</button>
-                  ))}
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit} className="nb-input-row">
-                <div className="nb-input-wrap">
-                  <input
-                    type="text"
-                    value={message}
-                    onChange={(e) => {
-                      setMessage(e.target.value);
-                      socket.emit('typing', { room: roomId, username });
-                    }}
-                    placeholder="Type message..."
-                    maxLength={500}
-                    className="nb-text-input"
-                  />
-                  <button
-                    ref={emojiToggleRef}
-                    type="button"
-                    className="nb-emoji-toggle"
-                    onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                  >
-                    <Smile size={20} />
-                  </button>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={!message.trim()}
-                  className="nb-send-btn"
-                >
-                  <Send size={20} />
-                </button>
-              </form>
-            </div>
+              <button type="submit" className="nb-login-btn">
+                Enter Room →
+              </button>
+            </form>
           </div>
         </div>
       </>
     );
   }
 
-  export default ChatRoom;
+  return (
+    <>
+      <style>{styles}</style>
+      <div className="nb-chat-outer">
+        <div className="nb-chat-root">
+          {/* Header */}
+          <div className="nb-header">
+            <div className="nb-header-left">
+              <button
+                onClick={() => navigate("/")}
+                className="nb-back-btn"
+                title="Leave Room"
+              >
+                <ArrowLeft size={24} />
+              </button>
+              <div className="nb-avatar">
+                {username.charAt(0).toUpperCase()}
+                <div className="nb-online-dot" />
+              </div>
+              <div className="nb-room-info">
+                <div className="nb-room-name">
+                  #{roomId.slice(0, 8)}
+                  <button
+                    onClick={copyRoomId}
+                    className="nb-copy-btn"
+                    title="Copy Room ID"
+                  >
+                    <Copy size={16} />
+                  </button>
+                </div>
+                <span className="nb-online-label">● Online</span>
+              </div>
+            </div>
+
+            <div className="nb-header-actions">
+              <button
+                ref={searchToggleRef}
+                className={`nb-icon-btn ${showSearch ? "active" : ""}`}
+                onClick={() => setShowSearch(!showSearch)}
+                title="Search"
+              >
+                <Search size={22} />
+              </button>
+              <button
+                ref={usersToggleRef}
+                className={`nb-icon-btn user ${showUsers ? "active" : ""}`}
+                onClick={() => setShowUsers(!showUsers)}
+                title="Users"
+              >
+                <Users size={22} />
+                <span>{onlineUsers.length}</span>
+              </button>
+              <button
+                onClick={exportChat}
+                className="nb-icon-btn download"
+                title="Export"
+                style={{ marginLeft: "8px" }}
+              >
+                <Download size={22} />
+              </button>
+              <button
+                onClick={clearChat}
+                className="nb-icon-btn danger"
+                title="Clear Chat"
+              >
+                <Trash2 size={22} />
+              </button>
+            </div>
+          </div>
+
+          {/* Users Panel */}
+          {showUsers && (
+            <div ref={usersPanelRef} className="nb-panel">
+              <div className="nb-panel-title">
+                Active Members
+                <span className="nb-badge">{onlineUsers.length}</span>
+              </div>
+              <div className="nb-users-list">
+                {onlineUsers.map((user, i) => (
+                  <div key={i} className="nb-user-chip">
+                    <div className="nb-user-dot" />
+                    {user}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Search Panel */}
+          {showSearch && (
+            <div
+              ref={searchPanelRef}
+              className="nb-panel"
+              style={{ padding: "12px 20px" }}
+            >
+              <div
+                style={{ display: "flex", gap: "8px", alignItems: "center" }}
+              >
+                <input
+                  type="text"
+                  placeholder="Search messages..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="nb-search-input"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="nb-action-btn"
+                  >
+                    <X size={18} />
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Messages */}
+          <div className="nb-messages">
+            {filteredMessages.length === 0 && searchQuery && (
+              <div className="nb-empty">
+                <div className="nb-empty-icon">🔍</div>
+                <div className="nb-empty-text">No results found</div>
+              </div>
+            )}
+
+            {filteredMessages.map((msg, index) => {
+              if (msg.type === "system") {
+                return (
+                  <div key={index} className="nb-system-msg">
+                    <span className="nb-system-tag">{msg.message}</span>
+                  </div>
+                );
+              }
+
+              const isMe = msg.username === username;
+
+              return (
+                <div
+                  key={msg.id || index}
+                  className={`nb-msg-row ${isMe ? "me" : "them"}`}
+                >
+                  <div className="nb-msg-inner">
+                    <div className="nb-bubble-wrap">
+                      {/* Reaction Picker */}
+                      {showReactionPicker === msg.id && (
+                        <div
+                          ref={reactionPickerRef}
+                          className="nb-reaction-picker"
+                        >
+                          {reactionEmojis.map((emoji) => (
+                            <button
+                              key={emoji}
+                              onClick={() => handleReaction(msg.id, emoji)}
+                              className="nb-emoji-btn-sm"
+                            >
+                              {emoji}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Bubble */}
+                      <div className={`nb-bubble ${isMe ? "me" : "them"}`}>
+                        {/* Reply preview */}
+                        {msg.replyTo && (
+                          <div className="nb-reply-preview">
+                            <div className="nb-reply-who">
+                              <Reply size={14} /> {msg.replyTo.username}
+                            </div>
+                            <div className="nb-reply-text">
+                              "{msg.replyTo.message}"
+                            </div>
+                          </div>
+                        )}
+
+                        {!isMe && (
+                          <div className="nb-sender-name">{msg.username}</div>
+                        )}
+
+                        <p style={{ margin: 0 }}>{msg.message}</p>
+
+                        {/* Reactions */}
+                        {msg.reactions &&
+                          Object.keys(msg.reactions).length > 0 && (
+                            <div className="nb-reactions">
+                              {Object.entries(msg.reactions).map(
+                                ([emoji, users]) => (
+                                  <button
+                                    key={emoji}
+                                    className={`nb-reaction-badge ${users.includes(username) ? "mine" : ""}`}
+                                    onClick={() =>
+                                      handleReaction(msg.id, emoji)
+                                    }
+                                  >
+                                    {emoji} {users.length}
+                                  </button>
+                                ),
+                              )}
+                            </div>
+                          )}
+                      </div>
+                    </div>
+
+                    {/* Side actions */}
+                    <div className="nb-side-actions">
+                      <button
+                        onClick={() => handleReply(msg)}
+                        className="nb-action-btn"
+                        title="Reply"
+                      >
+                        <Reply size={18} />
+                      </button>
+                      <button
+                        onClick={() =>
+                          setShowReactionPicker(
+                            showReactionPicker === msg.id ? null : msg.id,
+                          )
+                        }
+                        className="nb-action-btn"
+                        title="React"
+                      >
+                        <Smile size={18} />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Meta row */}
+                  <div className="nb-meta">
+                    <span>
+                      {new Date(msg.timestamp).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </span>
+                    {isMe && (
+                      <CheckCheck size={16} style={{ color: "#ff3c00" }} />
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* Typing indicator */}
+          {typingStatus && (
+            <div className="nb-typing">
+              <div className="nb-typing-dots">
+                <div className="nb-typing-dot" />
+                <div className="nb-typing-dot" />
+                <div className="nb-typing-dot" />
+              </div>
+              <span className="nb-typing-text">{typingStatus}</span>
+            </div>
+          )}
+
+          {/* Input area */}
+          <div className="nb-input-area" style={{ position: "relative" }}>
+            {/* Reply banner */}
+            {replyingTo && (
+              <div className="nb-reply-banner">
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div className="nb-reply-label">
+                    ↩ Replying to {replyingTo.username}
+                  </div>
+                  <div className="nb-reply-quote">{replyingTo.message}</div>
+                </div>
+                <button onClick={cancelReply} className="nb-cancel-reply">
+                  <X size={18} />
+                </button>
+              </div>
+            )}
+
+            {/* Emoji picker */}
+            {showEmojiPicker && (
+              <div ref={emojiPickerRef} className="nb-emoji-picker-popup">
+                {emojis.map((emoji, i) => (
+                  <button
+                    key={i}
+                    onClick={() => addEmoji(emoji)}
+                    className="nb-emoji-btn"
+                  >
+                    {emoji}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="nb-input-row">
+              <div className="nb-input-wrap">
+                <input
+                  type="text"
+                  value={message}
+                  onChange={(e) => {
+                    setMessage(e.target.value);
+                    socket.emit("typing", { room: roomId, username });
+                  }}
+                  placeholder="Type message..."
+                  maxLength={500}
+                  className="nb-text-input"
+                />
+                <button
+                  ref={emojiToggleRef}
+                  type="button"
+                  className="nb-emoji-toggle"
+                  onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                >
+                  <Smile size={24} />
+                </button>
+              </div>
+
+              <button
+                type="submit"
+                disabled={!message.trim()}
+                className="nb-send-btn"
+              >
+                <Send size={24} />
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default ChatRoom;
