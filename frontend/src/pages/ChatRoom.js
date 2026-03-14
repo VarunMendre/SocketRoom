@@ -199,12 +199,10 @@ const styles = `
       font-size: clamp(0.95rem, 3.5vw, 1rem);
       font-weight: 700;
       letter-spacing: 0.05em;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
       display: flex;
       align-items: center;
       gap: 6px;
+      min-width: 0;
     }
 
     .nb-copy-btn {
@@ -705,6 +703,98 @@ const styles = `
       from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
     }
+    
+    .nb-toast {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #bbff00;
+      color: #111;
+      border: 3px solid #111;
+      padding: 12px 24px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      box-shadow: 4px 4px 0 #111;
+      z-index: 9999;
+      animation: slideDown 0.3s ease;
+    }
+    .nb-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .nb-modal {
+      background: #f5f0e8;
+      border: 3px solid #111;
+      box-shadow: 8px 8px 0 #111;
+      padding: 24px;
+      max-width: 90%;
+      width: 400px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .nb-modal h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: #ff3c00;
+      margin: 0;
+      text-shadow: 2px 2px 0 #111;
+    }
+    .nb-modal p {
+      font-size: 1rem;
+      font-weight: 700;
+      margin: 0;
+    }
+    .nb-modal-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 8px;
+    }
+    .nb-modal-btn {
+      padding: 12px 20px;
+      border: 3px solid #111;
+      font-weight: 700;
+      text-transform: uppercase;
+      cursor: pointer;
+      flex: 1;
+      transition: transform 0.1s;
+    }
+    .nb-modal-btn.confirm {
+      background: #ff3c00;
+      color: #fff;
+      box-shadow: 4px 4px 0 #111;
+    }
+    .nb-modal-btn.confirm:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 #111;
+    }
+    .nb-modal-btn.cancel {
+      background: #fff;
+      color: #111;
+      box-shadow: 4px 4px 0 #111;
+    }
+    .nb-modal-btn.cancel:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 #111;
+    }
+    .nb-room-name-text {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   `;
 
 function ChatRoom() {
@@ -720,6 +810,8 @@ function ChatRoom() {
   const [showSearch, setShowSearch] = useState(false);
   const [replyingTo, setReplyingTo] = useState(null);
   const [showReactionPicker, setShowReactionPicker] = useState(null);
+  const [toastMessage, setToastMessage] = useState("");
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const messagesEndRef = useRef(null);
   const emojiPickerRef = useRef(null);
@@ -898,13 +990,25 @@ function ChatRoom() {
 
   const copyRoomId = () => {
     navigator.clipboard.writeText(roomId);
-    alert("Room ID copied!");
+    setToastMessage("Room ID copied!");
+    setTimeout(() => setToastMessage(""), 3000);
   };
 
   const addEmoji = (emoji) => setMessage((prev) => prev + emoji);
 
   const clearChat = () => {
-    if (window.confirm("Clear chat history?")) setMessages([]);
+    setShowConfirm(true);
+  };
+
+  const confirmClearChat = () => {
+    setMessages([]);
+    setShowConfirm(false);
+    setToastMessage("Chat cleared!");
+    setTimeout(() => setToastMessage(""), 3000);
+  };
+
+  const cancelClearChat = () => {
+    setShowConfirm(false);
   };
 
   const exportChat = () => {
@@ -989,6 +1093,31 @@ function ChatRoom() {
     <>
       <style>{styles}</style>
       <div className="nb-chat-outer">
+        {toastMessage && <div className="nb-toast">{toastMessage}</div>}
+
+        {showConfirm && (
+          <div className="nb-modal-overlay">
+            <div className="nb-modal">
+              <h3>Clear Chat</h3>
+              <p>Are you sure you want to delete all messages?</p>
+              <div className="nb-modal-actions">
+                <button
+                  className="nb-modal-btn cancel"
+                  onClick={cancelClearChat}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="nb-modal-btn confirm"
+                  onClick={confirmClearChat}
+                >
+                  Clear
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="nb-chat-root">
           {/* Header */}
           <div className="nb-header">
@@ -1006,11 +1135,14 @@ function ChatRoom() {
               </div>
               <div className="nb-room-info">
                 <div className="nb-room-name">
-                  #{roomId.slice(0, 8)}
+                  <span className="nb-room-name-text">
+                    #{roomId.slice(0, 8)}
+                  </span>
                   <button
                     onClick={copyRoomId}
                     className="nb-copy-btn"
                     title="Copy Room ID"
+                    style={{ flexShrink: 0 }}
                   >
                     <Copy size={16} />
                   </button>
