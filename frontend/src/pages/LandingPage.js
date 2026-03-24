@@ -17,12 +17,7 @@ const LandingPage = () => {
         <div className="nav-actions">
           <a
             href="https://chat-me.cloudvault.cloud"
-            style={{
-              color: "black",
-              textDecoration: "none",
-              fontWeight: "bold",
-              marginRight: "20px",
-            }}
+            className="nav-link"
           >
             Home
           </a>
@@ -34,122 +29,106 @@ const LandingPage = () => {
 
       <main>
         {/* ── HERO SECTION ── */}
-        <section
-          className="hero-section"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: "3rem",
-            flexWrap: "wrap",
-            padding: "4rem 0",
-          }}
-        >
-          {/* left: existing copy */}
-          <div style={{ flex: "1 1 320px", textAlign: "left" }}>
-            <h1 className="headline" style={{ textAlign: "left" }}>
+        <section className="hero-section">
+          <div className="hero-content">
+            <h1 className="headline">
               Connect <span className="text-purple">Instantly</span> <br />
               No <span className="text-pink">Registration</span> Required
             </h1>
-            <p className="hero-sub" style={{ textAlign: "left" }}>
+            <p className="hero-sub">
               The most raw, fast, and brutal way to chat in real-time. Create a
               room, share the ID, and start talking. No strings attached.
             </p>
-            <div className="hero-btns" style={{ justifyContent: "flex-start" }}>
+            <div className="hero-btns">
               <a
                 href="https://chat-app.cloudvault.cloud"
-                className="btn-primary"
-                style={{ fontSize: "1.5rem", padding: "1rem 2.5rem" }}
+                className="btn-primary hero-main-btn"
               >
                 Launch Chat Engine 🚀
               </a>
             </div>
           </div>
 
-          {/* right: animated demo */}
-          <div
-            style={{
-              flex: "0 0 auto",
-              position: "relative",
-            }}
-          >
-            {/* decorative corner accents matching your purple theme */}
-            <div
-              style={{
-                position: "absolute",
-                top: -10,
-                left: -10,
-                width: 22,
-                height: 22,
-                borderTop: "3px solid #7C3AED",
-                borderLeft: "3px solid #7C3AED",
-                zIndex: 1,
-              }}
-            />
-            <div
-              style={{
-                position: "absolute",
-                top: -10,
-                right: -10,
-                width: 22,
-                height: 22,
-                borderTop: "3px solid #7C3AED",
-                borderRight: "3px solid #7C3AED",
-                zIndex: 1,
-              }}
-            />
-            <div
-              style={{
-                position: "absolute",
-                bottom: -10,
-                left: -10,
-                width: 22,
-                height: 22,
-                borderBottom: "3px solid #7C3AED",
-                borderLeft: "3px solid #7C3AED",
-                zIndex: 1,
-              }}
-            />
-            <div
-              style={{
-                position: "absolute",
-                bottom: -10,
-                right: -10,
-                width: 22,
-                height: 22,
-                borderBottom: "3px solid #7C3AED",
-                borderRight: "3px solid #7C3AED",
-                zIndex: 1,
-              }}
-            />
+          <div className="demo-wrapper">
+            <div className="demo-scaler">
+              {/* decorative corner accents matching your purple theme */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: -10,
+                  left: -10,
+                  width: 22,
+                  height: 22,
+                  borderTop: "3px solid #7C3AED",
+                  borderLeft: "3px solid #7C3AED",
+                  zIndex: 1,
+                }}
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  top: -10,
+                  right: -10,
+                  width: 22,
+                  height: 22,
+                  borderTop: "3px solid #7C3AED",
+                  borderRight: "3px solid #7C3AED",
+                  zIndex: 1,
+                }}
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: -10,
+                  left: -10,
+                  width: 22,
+                  height: 22,
+                  borderBottom: "3px solid #7C3AED",
+                  borderLeft: "3px solid #7C3AED",
+                  zIndex: 1,
+                }}
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: -10,
+                  right: -10,
+                  width: 22,
+                  height: 22,
+                  borderBottom: "3px solid #7C3AED",
+                  borderRight: "3px solid #7C3AED",
+                  zIndex: 1,
+                }}
+              />
 
-            {/* "LIVE DEMO" badge */}
-            <div
-              style={{
-                position: "absolute",
-                top: -18,
-                left: "50%",
-                transform: "translateX(-50%)",
-                background: "#7C3AED",
-                padding: "3px 14px",
-                fontSize: 9,
-                fontWeight: 700,
-                color: "#fff",
-                letterSpacing: 2,
-                fontFamily: "'Space Mono', monospace",
-                whiteSpace: "nowrap",
-                zIndex: 2,
-              }}
-            >
-              ● LIVE DEMO
+              {/* "LIVE DEMO" badge */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: -18,
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  background: "#7C3AED",
+                  padding: "3px 14px",
+                  fontSize: 9,
+                  fontWeight: 700,
+                  color: "#fff",
+                  letterSpacing: 2,
+                  fontFamily: "'Space Mono', monospace",
+                  whiteSpace: "nowrap",
+                  zIndex: 2,
+                }}
+              >
+                ● LIVE DEMO
+              </div>
+
+              <ChatMeDemo />
             </div>
-
-            <ChatMeDemo />
           </div>
         </section>
 
         {/* Services Section — unchanged */}
-        <section style={{ padding: "4rem 0" }}>
+        <section style={{ padding: "6rem 0" }}>
           <h2 className="section-title">Our Services</h2>
           <div className="services-grid">
             <div className="service-card card-purple">
@@ -184,35 +163,20 @@ const LandingPage = () => {
           <div className="info-content">
             <div className="info-text-block">
               <h2>Important Information</h2>
-              <ul style={{ listStyle: "none", padding: 0 }}>
-                <li
-                  style={{
-                    marginBottom: "1rem",
-                    borderLeft: "5px solid black",
-                    paddingLeft: "1rem",
-                  }}
-                >
-                  <strong>Security:</strong> All chats are ephemeral. Use at
+              <ul className="info-list">
+                <li className="info-list-item">
+                  <strong>Security</strong>
+                  All chats are ephemeral. Use at
                   your own discretion.
                 </li>
-                <li
-                  style={{
-                    marginBottom: "1rem",
-                    borderLeft: "5px solid black",
-                    paddingLeft: "1rem",
-                  }}
-                >
-                  <strong>Limits:</strong> Currently supports up to 100
+                <li className="info-list-item">
+                  <strong>Limits</strong>
+                  Currently supports up to 100
                   participants per room.
                 </li>
-                <li
-                  style={{
-                    marginBottom: "1rem",
-                    borderLeft: "5px solid black",
-                    paddingLeft: "1rem",
-                  }}
-                >
-                  <strong>Connectivity:</strong> Ensure you are on a stable
+                <li className="info-list-item">
+                  <strong>Connectivity</strong>
+                  Ensure you are on a stable
                   internet connection for the best experience.
                 </li>
               </ul>
