@@ -120,15 +120,15 @@ body {
 
 .hero-section {
   display: flex;
-  align-items: center;
+  align-items: center; /* Center vertically */
   justify-content: space-between;
-  gap: 3rem;
+  gap: 4rem;
   flex-wrap: wrap;
-  padding: 6rem 5%;
+  padding: 8rem 5%;
 }
 
 .hero-content {
-  flex: 1 1 450px;
+  flex: 1 1 500px; /* Give text side more weight */
   text-align: left;
 }
 
@@ -172,36 +172,45 @@ body {
   transform-origin: center center;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1250px) {
   .hero-section {
-    justify-content: center;
-    text-align: center;
-  }
-  .hero-content, .hero-sub, .headline {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .hero-btns {
-    justify-content: center;
+    gap: 4rem;
   }
 }
 
 @media (max-width: 768px) {
   .hero-section {
+    flex-direction: column;
     padding: 4rem 5%;
-    gap: 4rem;
+    gap: 5rem;
+    text-align: center;
   }
   
+  .hero-content {
+    text-align: center;
+    flex: 0 1 auto;
+  }
+  
+  .headline, .hero-sub {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .hero-btns {
+    justify-content: center;
+  }
+
   /* Scale demo to fix 100% width of small screens */
   .demo-scaler {
-    transform: scale(calc(min(0.95, (100vw - 40px) / 680)));
+    transform: scale(calc(min(0.9, (100vw - 60px) / 680)));
   }
   
   .demo-wrapper {
-    width: 680px; /* Reference width for calc */
-    height: 520px; /* Reference height */
-    max-width: 100vw;
+    width: 680px; 
+    height: 520px;
+    max-width: 100%;
+    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
