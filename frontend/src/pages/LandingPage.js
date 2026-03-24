@@ -1,9 +1,30 @@
-import React from "react";
+import React, { useState, useLayoutEffect } from "react";
 import { Link } from "react-router-dom";
 import "./LandingPage.css";
 import ChatMeDemo from "./ChatMeDemo";
 
 const LandingPage = () => {
+  const [demoScale, setDemoScale] = useState(1);
+
+  useLayoutEffect(() => {
+    const updateScale = () => {
+      const width = window.innerWidth;
+      if (width < 768) {
+        const scale = Math.min(0.95, (width - 40) / 680);
+        setDemoScale(scale);
+      } else if (width < 1400) {
+        // Subtle scaling for tablet/laptop if needed, or keep at 1
+        const scale = Math.min(1, (width * 0.5) / 680); 
+        setDemoScale(Math.max(0.8, scale)); // Don't shrink too much on tablet
+      } else {
+        setDemoScale(1);
+      }
+    };
+    updateScale();
+    window.addEventListener("resize", updateScale);
+    return () => window.removeEventListener("resize", updateScale);
+  }, []);
+
   return (
     <div className="landing-container">
       {/* Decorative Blobs */}
@@ -50,8 +71,8 @@ const LandingPage = () => {
             </div>
           </div>
 
-          <div className="demo-wrapper">
-            <div className="demo-scaler">
+          <div className="demo-wrapper" style={{ height: 520 * demoScale }}>
+            <div className="demo-scaler" style={{ transform: `scale(${demoScale})` }}>
               {/* decorative corner accents matching your purple theme */}
               <div
                 style={{

@@ -210,21 +210,20 @@ body {
     justify-content: center;
   }
 
-  /* Scale demo to fix width of small screens (iPhone SE is ~375px) */
+  /* Scaling is now handled dynamically in LandingPage.js */
   .demo-scaler {
-    transform: scale(calc(min(0.95, (100vw - 40px) / 680)));
+    transform-origin: center center;
   }
   
   .demo-wrapper {
     width: 100%;
     max-width: 680px;
     height: auto;
-    aspect-ratio: 680 / 520;
     margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: visible; /* Don't clip shadows */
+    overflow: visible;
   }
 
   .services-grid {
