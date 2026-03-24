@@ -1,15 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;700;800&display=swap');
 
 :root {
-  --bg-color: #F9F9F9;
-  --primary-purple: #B666FF;
-  --secondary-purple: #7C3AED;
-  --vibrant-pink: #FF85C1;
-  --safety-orange: #FF6B00;
-  --electric-green: #2ECC71;
+  --bg-color: #f8f1e5; /* Warmer beige from image */
+  --primary-orange: #ff4d00;
+  --accent-yellow: #ffcc00;
+  --accent-green: #2ecc71;
   --deep-black: #000000;
-  --grid-line: rgba(0, 0, 0, 0.05);
+  --grid-line: rgba(0, 0, 0, 0.1);
   --border-width: 3px;
+  --shadow: 8px 8px 0px var(--deep-black);
 }
 
 * {
@@ -41,9 +40,9 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 5%;
+  padding: 1.2rem 5%;
   border-bottom: var(--border-width) solid var(--deep-black);
-  background: white;
+  background: var(--bg-color);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -70,12 +69,11 @@ body {
 
 .logo {
   font-family: 'Archivo Black', sans-serif;
-  font-size: 1.8rem;
-  color: var(--safety-orange);
+  font-size: 2.2rem;
+  color: var(--primary-orange);
   text-transform: uppercase;
-  -webkit-text-stroke: 1px var(--deep-black);
-  filter: drop-shadow(3px 3px 0px var(--deep-black));
   text-decoration: none;
+  letter-spacing: -1px;
 }
 
 .btn-primary {
@@ -104,54 +102,65 @@ body {
   box-shadow: 0px 0px 0px var(--deep-black);
 }
 
-.hero-main-btn {
-  font-size: 1.5rem !important;
-  padding: 1.2rem 3rem !important;
-  background: var(--safety-orange) !important;
-  color: white !important;
-  box-shadow: 8px 8px 0px var(--deep-black) !important;
-}
-
-.hero-main-btn:hover {
-  background: var(--vibrant-pink) !important;
-  transform: translate(-4px, -4px) !important;
-  box-shadow: 12px 12px 0px var(--deep-black) !important;
-}
-
 .hero-section {
   display: flex;
-  align-items: center; /* Center vertically */
+  align-items: center;
   justify-content: space-between;
-  gap: 4rem;
+  gap: 2rem;
   flex-wrap: wrap;
-  padding: 8rem 5%;
+  padding: 8rem 5% 4rem;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .hero-content {
-  flex: 1 1 500px; /* Give text side more weight */
+  flex: 1 1 500px;
   text-align: left;
 }
 
 .headline {
   font-family: 'Archivo Black', sans-serif;
-  font-size: clamp(3rem, 10vw, 5.5rem);
-  line-height: 0.9;
+  font-size: clamp(3.5rem, 8vw, 6rem);
+  line-height: 0.85;
   text-transform: uppercase;
-  margin-bottom: 2rem;
-  letter-spacing: -2px;
+  margin-bottom: 1.5rem;
+  color: var(--deep-black);
   text-align: left;
 }
 
-.text-purple { color: var(--primary-purple); }
-.text-pink { color: var(--vibrant-pink); }
+.text-purple { color: var(--primary-orange); } /* Match 'FRICTION' color */
+.text-pink { color: var(--accent-yellow); }
 
 .hero-sub {
-  font-size: clamp(1rem, 4vw, 1.25rem);
-  max-width: 600px;
-  margin: 0 0 3rem;
-  font-weight: 500;
-  line-height: 1.6;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  max-width: 550px;
+  margin: 0 0 2.5rem;
+  font-weight: 800;
+  line-height: 1.3;
+  text-transform: uppercase;
   text-align: left;
+  color: var(--deep-black);
+}
+
+.hero-btns {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.hero-main-btn {
+  font-size: 1.8rem !important;
+  padding: 1.5rem 2.5rem !important;
+  background: var(--accent-green) !important;
+  color: var(--deep-black) !important;
+  box-shadow: 10px 10px 0px var(--deep-black) !important;
+  text-transform: uppercase !important;
+  border: var(--border-width) solid var(--deep-black) !important;
+}
+
+.hero-main-btn:hover {
+  background: var(--accent-yellow) !important;
+  transform: translate(-4px, -4px) !important;
+  box-shadow: 14px 14px 0px var(--deep-black) !important;
 }
 
 .hero-btns {
@@ -181,39 +190,26 @@ body {
 @media (max-width: 768px) {
   .hero-section {
     flex-direction: column;
-    padding: 4rem 5%;
-    gap: 5rem;
-    text-align: center;
+    padding: 6rem 5% 4rem;
+    gap: 4rem;
   }
   
-  .hero-content {
-    text-align: center;
-    flex: 0 1 auto;
+  .headline { font-size: 3.5rem; }
+  .hero-sub { margin-bottom: 2rem; }
+
+  .services-grid {
+    flex-direction: column;
+    gap: 2rem;
   }
   
-  .headline, .hero-sub {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .hero-btns {
-    justify-content: center;
+  .service-card {
+    width: 100%;
+    transform: none !important;
+    margin: 0;
   }
 
-  /* Scale demo to fix 100% width of small screens */
-  .demo-scaler {
-    transform: scale(calc(min(0.9, (100vw - 60px) / 680)));
-  }
-  
-  .demo-wrapper {
-    width: 680px; 
-    height: 520px;
-    max-width: 100%;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .service-card:nth-child(2) {
+    order: -1; /* Stack middle card on top if desired, or keep natural order */
   }
 }
 
@@ -230,32 +226,35 @@ body {
 }
 
 .services-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  padding: 4rem 5%;
-}
-
-@media (max-width: 480px) {
-  .services-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    padding: 2rem 5%;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  padding: 4rem 5% 8rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
 }
 
 .service-card {
-  background: white;
+  background: var(--accent-yellow);
   border: var(--border-width) solid var(--deep-black);
-  padding: 2.5rem;
-  box-shadow: 10px 10px 0px var(--deep-black);
-  transition: transform 0.2s, box-shadow 0.2s;
-  display: flex;
-  flex-direction: column;
+  padding: 3rem 2rem;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s, z-index 0s;
+  width: 320px;
+  text-align: center;
+  flex-shrink: 0;
 }
 
+/* Overlapping effect from Image 2 */
+.service-card:nth-child(1) { transform: translateX(20px) rotate(-5deg); z-index: 1; background: var(--bg-color); }
+.service-card:nth-child(2) { transform: scale(1.1); z-index: 5; background: var(--accent-yellow); }
+.service-card:nth-child(3) { transform: translateX(-20px) rotate(5deg); z-index: 1; background: var(--bg-color); }
+
 .service-card:hover {
-  transform: translate(-4px, -4px);
+  transform: translate(-4px, -4px) scale(1.15) !important;
+  z-index: 10;
   box-shadow: 14px 14px 0px var(--deep-black);
 }
 

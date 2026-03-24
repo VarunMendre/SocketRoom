@@ -32,19 +32,20 @@ const LandingPage = () => {
         <section className="hero-section">
           <div className="hero-content">
             <h1 className="headline">
-              Connect <span className="text-purple">Instantly</span> <br />
-              No <span className="text-pink">Registration</span> Required
+              REAL TIME CHAT <br />
+              WITHOUT <span className="text-purple">FRICTION</span>
             </h1>
             <p className="hero-sub">
-              The most raw, fast, and brutal way to chat in real-time. Create a
-              room, share the ID, and start talking. No strings attached.
+              CREATE A ROOM INSTANTLY AND START CHATTING WITH
+              ANYONE. NO LOGIN. NO SETUP. JUST SHARE THE ROOM AND
+              TALK.
             </p>
             <div className="hero-btns">
               <a
                 href="https://chat-app.cloudvault.cloud"
                 className="btn-primary hero-main-btn"
               >
-                Launch Chat Engine 🚀
+                START CHATTING !!!
               </a>
             </div>
           </div>
@@ -59,8 +60,8 @@ const LandingPage = () => {
                   left: -10,
                   width: 22,
                   height: 22,
-                  borderTop: "3px solid #7C3AED",
-                  borderLeft: "3px solid #7C3AED",
+                  borderTop: "3px solid #000",
+                  borderLeft: "3px solid #000",
                   zIndex: 1,
                 }}
               />
@@ -71,8 +72,8 @@ const LandingPage = () => {
                   right: -10,
                   width: 22,
                   height: 22,
-                  borderTop: "3px solid #7C3AED",
-                  borderRight: "3px solid #7C3AED",
+                  borderTop: "3px solid #000",
+                  borderRight: "3px solid #000",
                   zIndex: 1,
                 }}
               />
@@ -83,8 +84,8 @@ const LandingPage = () => {
                   left: -10,
                   width: 22,
                   height: 22,
-                  borderBottom: "3px solid #7C3AED",
-                  borderLeft: "3px solid #7C3AED",
+                  borderBottom: "3px solid #000",
+                  borderLeft: "3px solid #000",
                   zIndex: 1,
                 }}
               />
@@ -95,8 +96,8 @@ const LandingPage = () => {
                   right: -10,
                   width: 22,
                   height: 22,
-                  borderBottom: "3px solid #7C3AED",
-                  borderRight: "3px solid #7C3AED",
+                  borderBottom: "3px solid #000",
+                  borderRight: "3px solid #000",
                   zIndex: 1,
                 }}
               />
@@ -108,7 +109,7 @@ const LandingPage = () => {
                   top: -18,
                   left: "50%",
                   transform: "translateX(-50%)",
-                  background: "#7C3AED",
+                  background: "#000",
                   padding: "3px 14px",
                   fontSize: 9,
                   fontWeight: 700,
@@ -129,30 +130,27 @@ const LandingPage = () => {
 
         {/* Services Section — unchanged */}
         <section style={{ padding: "6rem 0" }}>
-          <h2 className="section-title">Our Services</h2>
+          <h2 className="section-title">OUR SERVICES</h2>
           <div className="services-grid">
-            <div className="service-card card-purple">
+            <div className="service-card">
               <span className="card-icon">⚡</span>
-              <h3>Instant Rooms</h3>
+              <h3>NO LOGIN</h3>
               <p>
-                Generate a unique Room ID in milliseconds. No databases, no
-                waiting, just pure socket communication.
+                NO ACCOUNTS NECESSARY. START CHATTING INSTANTLY WITH ANYONE, ANYWHERE.
               </p>
             </div>
-            <div className="service-card card-orange">
-              <span className="card-icon">🕵️</span>
-              <h3>Total Privacy</h3>
+            <div className="service-card">
+              <span className="card-icon">💬</span>
+              <h3>REAL-TIME CHAT</h3>
               <p>
-                We don't store your messages. Once the room is closed, the data
-                is gone. Like it never happened.
+                MESSAGES APPEAR INSTANTLY USING REAL-TIME SOCKET COMMUNICATION. NO LAG.
               </p>
             </div>
-            <div className="service-card card-green">
-              <span className="card-icon">🌍</span>
-              <h3>Global Relay</h3>
+            <div className="service-card">
+              <span className="card-icon">🔗</span>
+              <h3>INSTANT ROOMS</h3>
               <p>
-                Powered by Socket.io for low-latency message delivery across the
-                globe. Smooth as silk.
+                CREATE A ROOM INSTANTLY AND INVITE OTHERS WITH A UNIQUE ROOM ID.
               </p>
             </div>
           </div>
