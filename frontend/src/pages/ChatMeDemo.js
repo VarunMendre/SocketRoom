@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 
 export default function ChatMeDemo() {
   const appRef = useRef(null);
@@ -15,15 +15,17 @@ export default function ChatMeDemo() {
   const chatDoneRef = useRef(false);
   const timersRef = useRef([]);
 
-  function after(ms, fn) {
+  const after = useCallback((ms, fn) => {
     const t = setTimeout(fn, ms);
     timersRef.current.push(t);
     return t;
-  }
-  function vis(id, delay) {
+  }, []);
+
+  const vis = useCallback((id, delay) => {
     after(delay, () => setVisEls((p) => new Set([...p, id])));
-  }
-  function hid(id, delay) {
+  }, [after]);
+
+  const hid = useCallback((id, delay) => {
     after(delay, () =>
       setVisEls((p) => {
         const n = new Set(p);
@@ -31,16 +33,71 @@ export default function ChatMeDemo() {
         return n;
       }),
     );
-  }
-  function setC(x, y) {
+  }, [after]);
+
+  const setC = useCallback((x, y) => {
     if (cursorRef.current) {
       cursorRef.current.style.left = x + "px";
       cursorRef.current.style.top = y + "px";
     }
-  }
+  }, []);
+
   const V = (id) => visEls.has(id);
 
-  function runAll() {
+  const runChat = useCallback(() => {
+    if (chatDoneRef.current) return;
+    chatDoneRef.current = true;
+    if (cursorRef.current) cursorRef.current.style.opacity = "0";
+    vis("m1", 200);
+    vis("fc1", 400);
+    vis("t1", 900);
+    hid("t1", 1700);
+    vis("m2", 1800);
+    vis("fc2", 2000);
+    vis("t2", 2600);
+    hid("t2", 3300);
+    vis("m3", 3400);
+    vis("fc3", 3600);
+    vis("r1", 4100);
+    vis("fc4", 4400);
+    vis("t3", 4600);
+    hid("t3", 5200);
+    vis("m4", 5300);
+    vis("fc5", 5500);
+    vis("m5", 6800);
+    vis("r2", 7400);
+    vis("fc6", 7000);
+    vis("fc7", 7800);
+    vis("replay", 8400);
+  }, [vis, hid]);
+
+  const runScene2 = useCallback(() => {
+    if (cursorRef.current)
+      cursorRef.current.style.transition =
+        "left 0.8s cubic-bezier(0.4,0,0.2,1),top 0.8s cubic-bezier(0.4,0,0.2,1)";
+    after(500, () => {
+      const ar = appRef.current?.getBoundingClientRect();
+      const r = copybtnRef.current?.getBoundingClientRect();
+      if (ar && r)
+        setC(r.left - ar.left + r.width * 0.4, r.top - ar.top + r.height * 0.4);
+    });
+    after(1400, () => {
+      setCopyPressed(true);
+      after(160, () => {
+        setCopyPressed(false);
+        setCopyDone(true);
+      });
+    });
+    after(1900, () => setShareVisible(true));
+    after(2600, () => setChips(["YOU", "ALEX"]));
+    after(3300, () => setChips(["YOU", "ALEX", "SAM"]));
+    after(4400, () => {
+      setScene("s3");
+      runChat();
+    });
+  }, [after, setC, runChat]);
+
+  const runAll = useCallback(() => {
     chatDoneRef.current = false;
     const c = cursorRef.current;
     if (c) {
@@ -80,71 +137,18 @@ export default function ChatMeDemo() {
         });
       });
     });
-  }
+  }, [setC, after, runScene2]);
 
-  function runScene2() {
-    if (cursorRef.current)
-      cursorRef.current.style.transition =
-        "left 0.8s cubic-bezier(0.4,0,0.2,1),top 0.8s cubic-bezier(0.4,0,0.2,1)";
-    after(500, () => {
-      const ar = appRef.current?.getBoundingClientRect();
-      const r = copybtnRef.current?.getBoundingClientRect();
-      if (ar && r)
-        setC(r.left - ar.left + r.width * 0.4, r.top - ar.top + r.height * 0.4);
-    });
-    after(1400, () => {
-      setCopyPressed(true);
-      after(160, () => {
-        setCopyPressed(false);
-        setCopyDone(true);
-      });
-    });
-    after(1900, () => setShareVisible(true));
-    after(2600, () => setChips(["YOU", "ALEX"]));
-    after(3300, () => setChips(["YOU", "ALEX", "SAM"]));
-    after(4400, () => {
-      setScene("s3");
-      runChat();
-    });
-  }
-
-  function runChat() {
-    if (chatDoneRef.current) return;
-    chatDoneRef.current = true;
-    if (cursorRef.current) cursorRef.current.style.opacity = "0";
-    vis("m1", 200);
-    vis("fc1", 400);
-    vis("t1", 900);
-    hid("t1", 1700);
-    vis("m2", 1800);
-    vis("fc2", 2000);
-    vis("t2", 2600);
-    hid("t2", 3300);
-    vis("m3", 3400);
-    vis("fc3", 3600);
-    vis("r1", 4100);
-    vis("fc4", 4400);
-    vis("t3", 4600);
-    hid("t3", 5200);
-    vis("m4", 5300);
-    vis("fc5", 5500);
-    vis("m5", 6800);
-    vis("r2", 7400);
-    vis("fc6", 7000);
-    vis("fc7", 7800);
-    vis("replay", 8400);
-  }
-
-  function restart() {
+  const restart = useCallback(() => {
     timersRef.current.forEach(clearTimeout);
     timersRef.current = [];
     after(50, runAll);
-  }
+  }, [after, runAll]);
 
   useEffect(() => {
     after(600, runAll);
     return () => timersRef.current.forEach(clearTimeout);
-  }, []);
+  }, [after, runAll]);
 
   const chipDotColors = ["#7C3AED", "#10b981", "#f97316"];
 
